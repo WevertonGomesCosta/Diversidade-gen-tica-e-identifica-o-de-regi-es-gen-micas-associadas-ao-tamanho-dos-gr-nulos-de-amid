@@ -1,5 +1,9 @@
 ---
 title: "About"
+author: 
+  - Costa, W. G.^[Weverton Gomes da Costa, Pós-Doutorando, Embrapa Mandioca e Fruticultura, wevertonufv@gmail.com]
+date: "`r Sys.Date()`"
+site: workflowr::wflow_site
 output:
   workflowr::wflow_html:
     toc: false
@@ -7,4 +11,18 @@ editor_options:
   chunk_output_type: console
 ---
 
-Describe your project.
+# Diversidade Genética e Identificação de Regiões Genômicas Associadas ao Tamanho dos Grânulos de Amido na Cultura da Mandioca (Cassava) - Dados da Embrapa Mandioca e Fruticultura
+
+Este trabalho tem como objetivo explorar a diversidade genética relacionada ao tamanho dos grânulos de amido na cultura da mandioca (cassava), utilizando dados fornecidos pela Embrapa Mandioca e Fruticultura. Através da análise genômica, buscaremos identificar regiões específicas do DNA que estão associadas a variações no tamanho dos grânulos de amido.
+
+O fluxo de trabalho seguirá as seguintes etapas principais:
+
+1 - Coleta de dados: Faremos a coleta de dados genéticos da cultura da mandioca, utilizando informações disponibilizadas pela Embrapa Mandioca e Fruticultura. Esses dados incluirão informações sobre o tamanho dos grânulos de amido em cada amostra.
+
+2 - Análise exploratória: Realizaremos uma análise exploratória dos dados para entender as características da diversidade genética e as relações com o tamanho dos grânulos de amido na mandioca. Isso envolverá a visualização de distribuições, a identificação de possíveis outliers e a realização de testes estatísticos preliminares.
+
+3 - Análise de associação genômica: Utilizaremos técnicas estatísticas avançadas para identificar regiões do genoma da mandioca que estão associadas ao tamanho dos grânulos de amido. Isso pode envolver a aplicação de modelos de regressão ou análise de associação de variantes.
+
+4 - Interpretação dos resultados: Analisaremos os resultados obtidos e faremos inferências sobre as relações entre a diversidade genética e o tamanho dos grânulos de amido na mandioca. Discutiremos as implicações biológicas e agronômicas dessas associações, bem como possíveis aplicações práticas para a melhoria da cultura da mandioca.
+
+Espera-se que este estudo contribua para o avanço do conhecimento sobre a diversidade genética relacionada aos grânulos de amido na cultura da mandioca, fornecendo insights importantes para a compreensão e manipulação de características relacionadas a esse importante componente da planta.
