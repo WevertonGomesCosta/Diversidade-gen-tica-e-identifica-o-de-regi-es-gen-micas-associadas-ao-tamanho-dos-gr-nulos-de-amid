@@ -1,7 +1,7 @@
-name: "https://github.com/WevertonGomesCosta/Diversidade-gen-tica-e-identifica-o-de-regi-es-gen-micas-associadas-ao-tamanho-dos-gr-nulos-de-amid"
+name: "Diversidade genética e identificação de regiões genômicas associadas ao tamanho dos grânulos de amido em mandioca"
 output_dir: ../docs
 navbar:
-  title: "https://github.com/WevertonGomesCosta/Diversidade-gen-tica-e-identifica-o-de-regi-es-gen-micas-associadas-ao-tamanho-dos-gr-nulos-de-amid"
+  title: "Diversidade genética e identificação de regiões genômicas associadas ao tamanho dos grânulos de amido em mandioca"
   left:
   - text: Home
     href: index.html
@@ -11,7 +11,7 @@ navbar:
     href: license.html
 output:
   workflowr::wflow_html:
-    toc: yes
-    toc_float: yes
-    theme: cosmo
-    highlight: textmate
+    toc: true
+    toc_float: true
+    theme: flatly
+    highlight: haddock

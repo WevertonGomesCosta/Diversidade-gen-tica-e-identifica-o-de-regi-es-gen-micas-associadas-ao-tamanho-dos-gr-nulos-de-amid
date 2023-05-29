@@ -1,5 +1,8 @@
 ---
 title: "Home"
+author: 
+  - Costa, W. G.^[Weverton Gomes da Costa, Pós-Doutorando, Embrapa Mandioca e Fruticultura, wevertonufv@gmail.com]
+date: "`r Sys.Date()`"
 site: workflowr::wflow_site
 output:
   workflowr::wflow_html:
@@ -8,4 +11,387 @@ editor_options:
   chunk_output_type: console
 ---
 
-Welcome to my research website.
+# Diversidade Genética do Tamanho dos Grânulos de Amido na Cultura da Mandioca (Cassava)
+
+Este projeto tem como objetivo realizar uma análise da diversidade genética do tamanho dos grânulos de amido na cultura da mandioca. Serão utilizados dados coletados em diferentes ensaios, visando identificar a variação existente nos genótipos da mandioca.
+
+## Pacotes
+
+Nesta análise, utilizaremos os seguintes pacotes do R:
+
+```{r}
+library(tidyverse)
+library(DataExplorer)
+library(kableExtra)
+library(metan)
+library(ggthemes)
+library(foreach)
+library(doParallel)
+
+```
+
+## Análise Descritiva
+
+Nesta etapa, serão realizadas as seguintes tarefas:
+
+### Leitura e pré-processamento dos dados
+
+Os dados serão lidos a partir do arquivo "dados_RVA.xlsx" e passarão por um processo de pré-processamento. Isso inclui a limpeza dos nomes das colunas, a seleção das variáveis relevantes, a transformação dos tipos de dados, a remoção de valores ausentes e o cálculo da média para as variáveis numéricas. Além disso, serão realizadas outras transformações nos dados, como a conversão de fatores e a filtragem de registros com valores inválidos.
+
+```{r}
+dados <- read.delim("data/RVA Silvia.txt") %>%
+  janitor::clean_names() %>%
+  mutate_if(is.character, as.factor) %>% 
+  mutate(
+    repeticao = as.factor(ifelse(repeticao %% 2 == 0, 1, 2)),
+    ano = as.factor(ano)
+  ) %>%
+  filter(!is.na(ano)) %>% 
+  group_by(amostras, ano, ensaio, repeticao) %>%
+  summarise_if(is.numeric, mean, na.rm = T) %>%
+  ungroup()
+
+```
+
+## Contagem de genótipos por ano
+
+Nesta etapa, é realizada a contagem do número de genótipos para cada ano. O objetivo é identificar a quantidade de genótipos presentes em cada ano de coleta dos dados da mandioca.
+
+```{r}
+dados2 <- dados %>%
+  count(ano, amostras)
+
+dados2 %>%
+  group_by(ano) %>%
+  summarise(`Nº de genótipos` = length(amostras)) %>%
+  kbl(
+    escape = F,
+    align = 'c',
+    col.names = c("Ano", "Nº de genótipos")
+  ) %>%
+  kable_classic(
+    "hover",
+    full_width = F,
+    position = "center",
+    fixed_thead = T
+  )
+
+```
+
+## Análise das variáveis
+
+Nesta etapa, realizamos uma análise das variáveis presentes nos dados, buscando entender a distribuição e características de cada uma delas.
+
+Primeiramente, analisamos a frequência de cada variável discreta. Utilizamos a função plot_bar para gerar gráficos de barras que mostram a contagem de cada valor discreto em cada variável. Os gráficos são organizados em uma grade de 4 colunas.
+
+```{r}
+plot_bar(dados, ncol = 4)
+```
+
+Ao analisar os resultados, identificamos que o ensaio BR.AYT.20.NH1 possui apenas 5 genótipos, sendo uma informação relevante a ser considerada.
+
+Em seguida, verificamos a distribuição das características por ano. Utilizamos a função plot_bar com o argumento by = "ano" para gerar gráficos de barras que mostram a distribuição dos valores de cada variável em cada ano.
+
+```{r}
+plot_bar(dados, by = "ano")
+```
+
+
+Ao observar os resultados, identificamos que dois ensaios possuem anos diferentes na coleta dos dados, o que pode ser relevante na análise posterior.
+
+Essa análise permite identificar possíveis diferenças na distribuição das variáveis entre os diferentes ensaios, o que pode indicar variações experimentais ou de cultivo.
+
+Em seguida, analisamos os histogramas das variáveis quantitativas. Utilizamos a função plot_histogram para gerar histogramas que mostram a distribuição dos valores de cada variável quantitativa.
+
+```{r}
+plot_histogram(dados)
+```
+
+
+Ao examinar os histogramas, identificamos que a variável Peak_time apresenta valores muito baixos que podem ser considerados outliers, ou seja, valores discrepantes em relação aos demais.
+
+Para visualizar melhor a presença desses outliers, utilizamos a função plot_boxplot para gerar gráficos de boxplot. Neste caso, agrupamos os dados por ensaio e configuramos a exibição em uma grade de 4 linhas. Utilizamos também a biblioteca ggplot2 e a função theme_gdocs para melhorar a aparência dos gráficos. Os outliers são destacados em vermelho e têm formato de ponto.
+
+```{r}
+plot_boxplot(
+  dados,
+  by = "ensaio",
+  nrow = 4,
+  ggtheme = theme_gdocs(),
+  geom_boxplot_args = list(outlier.colour = "red",
+                           outlier.shape = 1))
+```
+
+Ao analisar os boxplots, confirmamos que alguns ensaios apresentam distorção em relação aos demais para a variável Peak_time, indicando a presença de outliers.
+
+Prosseguindo com a análise, avaliamos a distribuição por ano utilizando a mesma função plot_boxplot, mas agora agrupando os dados por ano.
+
+```{r}
+plot_boxplot(
+  dados,
+  by = "ano",
+  nrow = 4,
+  ggtheme = theme_gdocs(),
+  geom_boxplot_args = list(outlier.colour = "red",
+                           outlier.shape = 1))
+```
+
+Essa análise permite verificar se há variações nas características entre as diferentes repetições, o que pode indicar a presença de efeitos aleatórios ou não controlados nos dados.
+
+```{r}
+plot_boxplot(
+  dados,
+  by = "repeticao",
+  nrow = 4,
+  ggtheme = theme_gdocs(),
+  geom_boxplot_args = list(outlier.colour = "red",
+                           outlier.shape = 1)
+)
+```
+
+## Análise das amostras
+
+Nesta etapa, realizamos uma análise das amostras presentes nos ensaios, com o objetivo de verificar detalhes dos dados e identificar possíveis problemas ou discrepâncias.
+
+Primeiramente, verificamos os detalhes dos dados por ensaio para todas as variáveis. Utilizamos a função ge_details para obter informações como média, desvio padrão, mínimo, máximo e contagem de valores ausentes para cada variável e ensaio. Os resultados são apresentados em uma tabela formatada para facilitar a visualização.
+
+```{r}
+ge_details(dados, ano, amostras, resp = everything()) %>%
+  t() %>%
+  kbl(escape = F, align = 'c') %>%
+  kable_classic(
+    "hover",
+    full_width = F,
+    position = "center",
+    fixed_thead = T
+  )
+
+```
+
+Observamos que as variáveis peak_time e setback apresentam coeficientes de variação (CVs) altos, indicando uma maior variabilidade e possíveis valores discrepantes em alguns ensaios.
+
+Em seguida, utilizamos a função desc_stat para calcular estatísticas descritivas das variáveis por ensaio. Essas estatísticas incluem média, desvio padrão, valor mínimo, valor máximo e coeficiente de variação (CV). Novamente, os resultados são apresentados em uma tabela formatada.
+```{r}
+desc_stat(dados, by = ano, na.rm = TRUE) %>%
+  kbl(escape = F, align = 'c') %>%
+  kable_classic(
+    "hover",
+    full_width = F,
+    position = "center",
+    fixed_thead = T
+  )
+
+```
+
+Ao analisar os resultados, confirmamos que as variáveis peak_time e setback possuem coeficientes de variação (CVs) altos, sugerindo uma maior variabilidade e a presença de valores discrepantes em alguns ensaios.
+
+Também realizamos uma inspeção visual dos dados, removendo as colunas referentes às amostras e aos ensaios. Utilizamos a função inspect para gerar uma visualização dos dados em forma de tabela, com a opção de exibir gráficos para uma melhor compreensão. Os resultados são apresentados em uma tabela formatada.
+
+```{r}
+dados %>%
+  select(-amostras, -ensaio) %>%
+  inspect(verbose = FALSE, plot = T) %>%
+  kbl(escape = F, align = 'c') %>%
+  kable_classic(
+    "hover",
+    full_width = F,
+    position = "center",
+    fixed_thead = T
+  )
+
+```
+
+Por fim, plotamos um gráfico de matriz de correlação para visualizar as relações entre as variáveis nos diferentes ensaios. Utilizamos a função corr_plot e selecionamos o agrupamento por ensaio para colorir as células do gráfico. Essa análise ajuda a identificar padrões de correlação e possíveis relações entre as variáveis nos diferentes ensaios.
+
+```{r}
+corr_plot(dados, col.by = ano)
+```
+
+Através dessa análise das amostras, podemos obter informações valiosas sobre a distribuição, consistência e correlação dos dados, o que é fundamental para a interpretação e análise posterior.
+
+
+## Função de Análise de Metan
+Nesta etapa, definimos a função analise_metan_joint que é responsável por realizar a análise de metan para um modelo misto específico. A função extrai os parâmetros de interesse, como a herdabilidade (H2), os valores BLUPs (melhores predições lineares não viesadas) e os valores preditos. Esses resultados são armazenados em um tibble que é retornado pela função.
+
+```{r}
+analise_metan_joint <- function(model, trait) {
+  H2 <- get_model_data(model, "genpar") %>%
+    filter(Parameters == "Heritability") %>%
+    pull(trait)
+  
+  parameters <- get_model_data(model)
+  
+  BLUPS <- get_model_data(model, "ranef")$GEN
+  
+  Predicted_values <- predict(model) %>%
+    group_by(GEN) %>%
+    summarise(across(where(is.numeric), mean)) %>%
+    pull(trait)
+  
+  return(
+    list(
+      trait = trait,
+      H2 = H2,
+      germplasmName = BLUPS[[1]],
+      BLUPS = BLUPS[[2]],
+      parameters = list(parameters),
+      Predicted = Predicted_values
+    )
+  )
+}
+
+```
+
+
+## Obtenção dos BLUPs
+Nesta etapa, realizamos a obtenção dos valores BLUPs (melhores predições lineares não viesadas) para cada característica (trait) utilizando modelos mistos. O processo é realizado em paralelo, utilizando múltiplos núcleos de processamento para otimizar a velocidade de execução.
+
+```{r}
+traits <- colnames(dados)[5:ncol(dados)]
+# Definir número de núcleos a serem usados
+num_cores <- detectCores()
+
+# Registrar os núcleos a serem usados
+registerDoParallel(cores = num_cores)
+
+# Loop externo
+BLUPS_join <-
+  foreach(
+    trait = traits,
+    .combine = bind_rows,
+    .multicombine = TRUE,
+    .verbose = TRUE
+  ) %dopar% {
+    library(tidyverse)
+    library(metan)
+    DRG <- list()
+    
+    data <- dados %>%
+      select(1:4, all_of(trait)) %>%
+      na.omit() %>%
+      droplevels()
+    
+    if (!is.na(mean(data[[trait]], na.rm = TRUE))) {
+      model <-
+        gamem_met(
+          data,
+          env = ano,
+          gen = amostras,
+          rep = repeticao,
+          resp = sym(trait)
+        )
+      drg <- list(analise_metan_joint(model, trait))
+      DRG <- append(DRG, drg)
+    }
+    
+  }
+
+# Finalizar o registro dos núcleos
+registerDoSEQ()
+```
+
+A variável BLUPS_join é usada como base de dados para o gráfico. Cada densidade é representada por um preenchimento e cor diferente de acordo com a variável trait. O gráfico é facetado de acordo com a variável trait e as escalas dos eixos y são ajustadas independentemente para cada faceta. São aplicados temas clássicos ao gráfico, removendo o fundo das faixas de facetamento e colocando as faixas abaixo do gráfico. Os rótulos dos eixos também são ajustados. Por fim, são aplicadas escalas de cores específicas (scale_fill_gdocs e scale_color_gdocs).
+
+```{r}
+BLUPS_join %>%
+  ggplot(aes(Predicted, after_stat(count), fill = trait, color = trait)) +
+  geom_density(show.legend = F) +
+  facet_wrap(vars(trait), scales = "free", strip.position = "bottom")+
+  theme_classic()+
+  theme(strip.background = element_blank(),
+    strip.placement = "outside")+
+  labs(y = "Density", x="")+
+  scale_fill_gdocs() +
+  scale_color_gdocs()
+```
+
+Neste trecho de código, a variável parametros é criada a partir da junção dos data frames contidos em BLUPS_join$parameters usando a função merge. Os números nas colunas, exceto na primeira coluna, são arredondados para 4 casas decimais. O data frame resultante é exibido em formato de tabela usando o pacote kableExtra, aplicando algumas formatações como a classe "hover" para efeitos de estilo e centralizando a tabela.
+
+```{r}
+parametros <- Reduce(function(x, y) merge(x, y, all = TRUE), BLUPS_join$parameters)
+
+# Arredondando todos os números para 4 casas decimais
+parametros[,-1] <- as.data.frame(lapply(parametros[,-1], function(x) round(x, 4)))
+
+# Exibindo o data frame arredondado
+parametros %>%
+  kbl(
+    escape = F,
+    align = 'c'
+  ) %>%
+  kable_classic(
+    "hover",
+    full_width = F,
+    position = "center",
+    fixed_thead = T
+  )
+```
+
+Neste trecho de código, a variável BLUPS_join é salva em um arquivo chamado "BLUPS.Rdata" no diretório "output". Isso permite que você salve a variável para uso posterior.
+
+```{r}
+save(BLUPS_join, file = "output/BLUPS.Rdata")
+```
+
+Neste trecho de código, a variável parametros é salva em um arquivo chamado "parametros.Rdata" no diretório "output". Isso permite que você salve a variável para uso posterior.
+
+```{r}
+save(parametros, file = "output/parametros.Rdata")
+```
+
+Neste trecho de código, a matriz de correlação das variáveis selecionadas é calculada a partir da variável BLUPS_join. As colunas trait, germplasmName e Predicted são selecionadas e convertidas em um formato adequado usando pivot_wider. Em seguida, a matriz de correlação é calculada usando a função corr_coef. A matriz de correlação é exibida na tela. Posteriormente, um gráfico de correlação é plotado usando a função plot.
+
+```{r}
+Predicted <- BLUPS_join %>%
+    select(trait, germplasmName, Predicted) %>% 
+    pivot_wider(names_from = trait, values_from = Predicted) %>% 
+                        select(peak_1:umidade_percent)
+# Calcula a matriz de correlação das variáveis selecionadas
+coef_cor <- corr_coef(Predicted)
+
+# Exibe a matriz de correlação na tela
+coef_cor
+
+# Plota o gráfico de correlação
+plot(coef_cor)
+```
+
+```{r}
+# Instalar e carregar os pacotes necessários
+install.packages("adegenet")
+install.packages("circlize")
+library(adegenet)
+library(circlize)
+
+# Carregar seus dados de cassava (substitua "seus_dados" pelo nome correto)
+
+
+# Remover linhas com valores ausentes na tabela
+Predicted1 <- Predicted[complete.cases(Predicted), ]
+
+# Realizar a transformação do dataset usando a análise de componentes principais
+dados_transformados <- prcomp(Predicted1[, -1], scale. = TRUE)
+
+# Determine the number of clusters using the find.clusters function
+resultados_clusters <- find.clusters(dados_transformados$x, n.clust = 2:15)
+
+# Calculate the BIC for each number of clusters
+bic <- sapply(resultados_clusters, function(x) x$BIC)
+
+# Find the number of clusters with the lowest BIC
+numero_clusters <- which.min(bic)
+
+# Obtain the most suitable clustering solution
+solucao_clustering <- resultados_clusters[[numero_clusters]]
+
+# Build the dendrogram using the hclust function
+dendrograma <- hclust(as.dist(solucao_clustering$distmat))
+plot(dendrograma, labels = colnames(seus_dados)[-1], hang = -1)
+
+# Save the dendrogram to a file (optional)
+pdf("dendrograma_cassava.pdf")
+plot(dendrograma, labels = colnames(seus_dados)[-1], hang = -1)
+dev.off()
+
+```
+
