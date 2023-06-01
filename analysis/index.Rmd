@@ -40,6 +40,8 @@ library(circlize)        # Visualização circular de dados
 library(dendextend)      # Extensões para manipulação de dendrogramas
 library(doParallel)
 library(foreach)
+library(ggthemes)
+library(GGally)
 ```
 
 
@@ -354,19 +356,28 @@ registerDoSEQ()
 O gráfico de densidade é gerado utilizando a variável BLUPS_join como base de dados. Ele exibe as densidades para cada característica (trait) usando diferentes preenchimentos e cores.
 
 ```{r}
+BLUPS_join_mean <- BLUPS_join %>% 
+  group_by(trait) %>% 
+  summarise(mean_predicted = mean(Predicted),
+            quantile_1 = quantile(Predicted, probs = 0.25),
+            quantile_2 = quantile(Predicted, probs = 0.75))
+
+
 BLUPS_join %>%
   ggplot(aes(Predicted, after_stat(count), fill = trait, color = trait)) +
   geom_density(show.legend = FALSE)  +
+  geom_vline(data = BLUPS_join_mean, aes(xintercept = mean_predicted), colour = "black", linetype = "dashed", show.legend = F) +
+   geom_vline(data = BLUPS_join_mean, aes(xintercept = quantile_1), colour = "indianred4", linetype = 4, show.legend = F) +
+   geom_vline(data = BLUPS_join_mean, aes(xintercept = quantile_2), colour = "indianred4", linetype = 4, show.legend = F) +
   facet_wrap(vars(trait), scales = "free", strip.position = "bottom") +
   theme_classic() +
   theme(strip.background = element_blank(),
         strip.placement = "outside") +
   labs(y = "Density", x = "") +
   scale_fill_gdocs() +
-  scale_color_gdocs() +
-  geom_vline(aes(xintercept = mean(Predicted), colour = "black"), linetype = "dashed", show.legend = F) +
-   geom_vline(aes(xintercept = quantile(Predicted, probs = 0.25), colour = "indianred4"), linetype = 2, show.legend = F) +
-   geom_vline(aes(xintercept = quantile(Predicted, probs = 0.75), colour = "indianred4"), linetype = 2, show.legend = F)
+  scale_color_gdocs() 
+
+ggsave("output/density_BLUPS.tiff", width = 12, height = 8)
 ```
 
 Os parâmetros são obtidos a partir da junção dos data frames contidos em BLUPS_join$parameters usando a função merge. Os números nas colunas (exceto a primeira coluna) são arredondados para 4 casas decimais. O resultado é exibido como uma tabela formatada usando o pacote kableExtra.
@@ -378,6 +389,8 @@ parametros[,-1] <- as.data.frame(lapply(parametros[,-1], function(x) round(x, 4)
 parametros %>%
   kbl(escape = FALSE, align = 'c') %>%
   kable_classic("hover", full_width = FALSE, position = "center", fixed_thead = TRUE)
+
+write.table(parametros, file = "output/parametros.csv")
 ```
 
 Os componetnes de variância são obtidos a partir da junção dos data frames contidos em BLUPS_join$vcomp usando a função merge. Os números nas colunas (exceto a primeira coluna) são arredondados para 4 casas decimais. O resultado é exibido como uma tabela formatada usando o pacote kableExtra.
@@ -389,41 +402,18 @@ vcomp[,-1] <- as.data.frame(lapply(vcomp[,-1], function(x) round(x, 4)))
 vcomp %>%
   kbl(escape = FALSE, align = 'c') %>%
   kable_classic("hover", full_width = FALSE, position = "center", fixed_thead = TRUE)
+
+write.table(vcomp, file = "output/vcomp.csv")
 ```
 
 ```{r}
-library(ggthemes)
-
-library(GGally)
-
-varcomp <- varcomp |>
-  select(grp, contains("vcov")) |>
-  pivot_longer(cols = 2:18,
+varcomp <- vcomp %>% 
+  pivot_longer(cols = 2:ncol(vcomp),
                names_to = "Traits",
-               values_to = "vcov") |> 
-  mutate(Traits = factor(str_split_i(Traits, "vcov.",-1),labels = c(
-    "Mite",
-    "StC",
-    "Plant.Height",
-    "Branching",
-    "Root.Le",
-    "Stem.D",
-    "Root.Di",
-    "HI",
-    "DMC",
-    "Nstem.Plant",
-    "N_Roots",
-    "PltArc",
-    "ShY",
-    "StY",
-    "FRY",
-    "Leaf.Ret",
-    "Stand6MAP"
-  )),
-  grp = str_replace_all(grp,":","."))
+               values_to = "vcov")
 
-varcomp |> 
-  ggplot(aes(x = Traits, y = vcov, fill = grp, by = Traits)) +
+varcomp %>%  
+  ggplot(aes(x = Traits, y = vcov, fill = Group, by = Traits)) +
   geom_col(position = "fill")+ 
   labs(y="Value",
        x="Traits",
@@ -452,48 +442,20 @@ save(parametros, file = "output/parametros.Rdata")
 save(vcomp, file = "output/vcomp.Rdata")
 ```
 
-## Imputação de dados
-
-```{r}
-# Imputação de dados
-
-# Selecionar as colunas necessárias e transformar em matriz
-BLUPS <- BLUPS_join %>%
-  dplyr::select(trait, germplasmName, BLUPS) %>%
-  pivot_wider(names_from = trait, values_from = BLUPS) %>%
-  column_to_rownames(var = "germplasmName")
-
-# Realizar a imputação de valores ausentes usando o método missForest
-TCC.imp <- missForest(BLUPS, maxiter = 10, ntree = 200, mtry = floor(sqrt(ncol(BLUPS))))
-
-# Salvar os valores imputados em um arquivo
-write.table(TCC.imp$ximp, "BLUPs_imputados.txt")
-
-```
-
-### Histograma
-
-```{r}
-phen <-
-  read.table(
-    "BLUPs imputados.txt",
-    header = TRUE,
-    sep = "",
-    na.strings = "NA",
-    dec = ".",
-    strip.white = TRUE
-  )
-```
-
 ### Correlações de Pearson
 
 ```{r}
-phen <- TCC.imp$ximp
+phen <- BLUPS_join %>%
+  dplyr::select(trait, germplasmName, BLUPS) %>%
+  pivot_wider(names_from = trait, values_from = BLUPS) %>%
+  select(-peak_time) %>% 
+  column_to_rownames(var = "germplasmName")
+
 # Calcular a matriz de correlação de Pearson
 corMat <- cor(phen, use = "pairwise.complete.obs")
 
 # Visualizar a matriz de correlação arredondada
-round(corMat, 2)
+round(corMat, 4)
 ```
 
 ### Correlograma
@@ -503,7 +465,7 @@ round(corMat, 2)
 corr_mat <- cor(phen, method = "pearson")
 
 # Salvar a matriz de correlação em um arquivo
-write.table(corr_mat, "Correlacao.txt")
+write.table(corr_mat, "output/Correlacao.txt")
 
 # Realizar o teste de significância para as correlações
 res1 <- cor.mtest(phen, conf.level = 0.95)
@@ -534,13 +496,13 @@ corrplot(
 ### DAPC	
 
 ```{r}
+set.seed(12345)
 # Encontrar os clusters usando DAPC
 grp <- find.clusters(phen, max.n = 50, n.pca = 200, scale = TRUE, choose = FALSE)
 
 # Salvar os clusters em um arquivo
-write.table(grp$grp, 'Clusters.txt', sep = " ")
+write.table(grp$grp, 'output/Clusters.txt', sep = " ")
 ```
-
 
 #### Descrever os clusters usando DAPC
 
@@ -568,7 +530,7 @@ PCA1x3 <- scatter(dapc1, 1, 3, label.inds = list(air = 0.5, pch = NA), posi.da =
 probpost <- dapc1$posterior
 
 # Salvar as probabilidades a posteriori em um arquivo
-write.table(probpost, 'Prob_a_posteriori.txt', sep = " ")
+write.table(probpost, 'output/Prob_a_posteriori.txt', sep = " ")
 ```
 
 #### Plotar os gráficos de atribuição de grupos
@@ -580,7 +542,7 @@ assignplot(dapc1, subset = 1:60)
 
 # Salvar os grupos a priori em um arquivo
 cluster1 <- grp$grp
-write.table(cluster1, 'Cluster_a_priori.txt', sep = " ")
+write.table(cluster1, 'output/Cluster_a_priori.txt', sep = " ")
 ```
 
 ### Circular heatmap
