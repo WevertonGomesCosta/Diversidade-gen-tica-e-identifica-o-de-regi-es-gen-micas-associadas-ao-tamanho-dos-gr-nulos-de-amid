@@ -371,7 +371,7 @@ id="fnref1"><sup>1</sup></a></h4>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-ok text-success"
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -382,8 +382,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-</a>
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -396,9 +396,9 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 0
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong>
@@ -422,18 +422,21 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate"
+<div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git
-repository, you know the exact version of the code that produced these
-results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
@@ -524,15 +527,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomWevertonGomesCostaDiversidadegenticaeidentificaoderegiesgenmicasassociadasaotamanhodosgrnulosdeamidtreecf18bdbf838d7c91faec592a2038c92c9f7ded24targetblankcf18bdba">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomWevertonGomesCostaDiversidadegenticaeidentificaoderegiesgenmicasassociadasaotamanhodosgrnulosdeamidtreece058e7ebf1c7c0359b394d754b6fa6e3d1494cdtargetblankce058e7a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/WevertonGomesCosta/Diversidade-gen-tica-e-identifica-o-de-regi-es-gen-micas-associadas-ao-tamanho-dos-gr-nulos-de-amid/tree/cf18bdbf838d7c91faec592a2038c92c9f7ded24" target="_blank">cf18bdb</a>
+<a href="https://github.com/WevertonGomesCosta/Diversidade-gen-tica-e-identifica-o-de-regi-es-gen-micas-associadas-ao-tamanho-dos-gr-nulos-de-amid/tree/ce058e7ebf1c7c0359b394d754b6fa6e3d1494cd" target="_blank">ce058e7</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomWevertonGomesCostaDiversidadegenticaeidentificaoderegiesgenmicasassociadasaotamanhodosgrnulosdeamidtreecf18bdbf838d7c91faec592a2038c92c9f7ded24targetblankcf18bdba"
+id="strongRepositoryversionstrongahrefhttpsgithubcomWevertonGomesCostaDiversidadegenticaeidentificaoderegiesgenmicasassociadasaotamanhodosgrnulosdeamidtreece058e7ebf1c7c0359b394d754b6fa6e3d1494cdtargetblankce058e7a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -542,7 +545,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/WevertonGomesCosta/Diversidade-gen-tica-e-identifica-o-de-regi-es-gen-micas-associadas-ao-tamanho-dos-gr-nulos-de-amid/tree/cf18bdbf838d7c91faec592a2038c92c9f7ded24" target="_blank">cf18bdb</a>.
+<a href="https://github.com/WevertonGomesCosta/Diversidade-gen-tica-e-identifica-o-de-regi-es-gen-micas-associadas-ao-tamanho-dos-gr-nulos-de-amid/tree/ce058e7ebf1c7c0359b394d754b6fa6e3d1494cd" target="_blank">ce058e7</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -559,22 +562,8 @@ were generated:
 Ignored files:
     Ignored:    .Rproj.user/
 
-Untracked files:
-    Untracked:  Apresentação_Silvia_Cap1.pptx
-    Untracked:  data/Label Taxa nome dos clones GBS DART CHIP.xlsx
-    Untracked:  data/dados_gwas.csv
-
 Unstaged changes:
-    Deleted:    analysis/AnaliseVar_Lab.R
-    Modified:   analysis/index.Rmd
-    Modified:   analysis/license.Rmd
-    Deleted:    dados_corrigidos.csv
-    Deleted:    data/RVA Silvia.txt
-    Modified:   data/dados_RVA.xlsx
-    Deleted:    output/BLUPS.RData
-    Deleted:    output/BLUPS2.RData
-    Deleted:    output/boxplot-BLUPs.tiff
-    Deleted:    output/parametros.Rdata
+    Modified:   analysis/about.Rmd
 
 </code></pre>
 <p>
@@ -619,6 +608,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/WevertonGomesCosta/Diversidade-gen-tica-e-identifica-o-de-regi-es-gen-micas-associadas-ao-tamanho-dos-gr-nulos-de-amid/ce058e7ebf1c7c0359b394d754b6fa6e3d1494cd/docs/about.html" target="_blank">ce058e7</a>
+</td>
+<td>
+WevertonGomesCosta
+</td>
+<td>
+2023-06-01
+</td>
+<td>
+Update data, about and license
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -699,12 +705,22 @@ dados para entender as características da diversidade genética e as
 relações com o tamanho dos grânulos de amido na mandioca. Isso envolverá
 a visualização de distribuições, a identificação de possíveis outliers e
 a realização de testes estatísticos preliminares.</p>
-<p>3 - Análise de associação genômica: Utilizaremos técnicas
+<p>3 - Análise de modelos mistos e diversidade genética: Utilizaremos
+modelos mistos para analisar a diversidade genética relacionada ao
+tamanho dos grânulos de amido na cultura da mandioca. Esses modelos
+consideram a estrutura de parentesco entre as amostras e permitem
+estimar os efeitos genéticos e ambientais na variação do tamanho dos
+grânulos de amido. Além disso, investigaremos a presença de interações
+genótipo-ambiente, avaliando como diferentes genótipos respondem em
+diferentes condições ambientais. Essa análise nos ajudará a compreender
+a contribuição relativa dos fatores genéticos e ambientais na
+determinação do tamanho dos grânulos de amido na mandioca.</p>
+<p>4 - Análise de associação genômica: Utilizaremos técnicas
 estatísticas avançadas para identificar regiões do genoma da mandioca
 que estão associadas ao tamanho dos grânulos de amido. Isso pode
 envolver a aplicação de modelos de regressão ou análise de associação de
 variantes.</p>
-<p>4 - Interpretação dos resultados: Analisaremos os resultados obtidos
+<p>5 - Interpretação dos resultados: Analisaremos os resultados obtidos
 e faremos inferências sobre as relações entre a diversidade genética e o
 tamanho dos grânulos de amido na mandioca. Discutiremos as implicações
 biológicas e agronômicas dessas associações, bem como possíveis
