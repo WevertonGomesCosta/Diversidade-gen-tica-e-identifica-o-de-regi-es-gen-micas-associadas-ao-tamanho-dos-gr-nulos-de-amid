@@ -291,13 +291,13 @@ analise_metan_joint <- function(model, trait) {
     pull(trait)
   
   return(
-    list(
+    tibble(
       trait = trait,
       H2 = H2,
       germplasmName = BLUPS[[1]],
       BLUPS = BLUPS[[2]],
       parameters = list(parameters),
-      vcomp <- list(vcomp),
+      vcomp = list(vcomp),
       Predicted = Predicted_values
     )
   )
@@ -308,40 +308,6 @@ analise_metan_joint <- function(model, trait) {
 ### Obtenção dos BLUPs
 
 Nesta etapa, realizamos a obtenção dos valores BLUPs (melhores predições lineares não viesadas) para cada característica (trait) utilizando modelos mistos. O processo é realizado em paralelo, utilizando múltiplos núcleos de processamento para otimizar a velocidade de execução.
-
-```{r}
-library(tidyverse)
-library(metan)
-library(furrr)
-library(data.table)
-```
-
-```{r}
-traits <- colnames(dados)[5:ncol(dados)]
-num_cores <- detectCores()
-
-plan(multisession, workers = num_cores)
-
-BLUPS_join <- future_map_dfr(traits, ~ {
-  data <- dados %>%
-    select(1:4, all_of(.x)) %>%
-    na.omit() %>%
-    droplevels()
-  
-    model <- gamem_met(
-      data,
-      env = ano,
-      gen = amostras,
-      rep = repeticao,
-      resp = sym(.x)
-    )
-    analise_metan_joint(model, .x)
-})
-
-plan(sequential)
-
-```
-
 
 ```{r}
 traits <- colnames(dados)[5:ncol(dados)]
@@ -361,7 +327,6 @@ BLUPS_join <-
     library(dplyr)
     library(metan)
     
-    trait <- traits[1]
     DRG <- list()
     
     data <- dados %>%
@@ -391,17 +356,17 @@ O gráfico de densidade é gerado utilizando a variável BLUPS_join como base de
 ```{r}
 BLUPS_join %>%
   ggplot(aes(Predicted, after_stat(count), fill = trait, color = trait)) +
-  geom_density(show.legend = FALSE) +
-  geom_vline(aes(xintercept = mean(Predicted), colour = "black"), linetype = "dashed") +
-   geom_vline(aes(xintercept = quantile(Predicted, probs = 0.25), colour = "indianred4"), linetype = 2) +
-   geom_vline(aes(xintercept = quantile(Predicted, probs = 0.75), colour = "indianred4"), linetype = 2 ) +
+  geom_density(show.legend = FALSE)  +
   facet_wrap(vars(trait), scales = "free", strip.position = "bottom") +
   theme_classic() +
   theme(strip.background = element_blank(),
         strip.placement = "outside") +
   labs(y = "Density", x = "") +
   scale_fill_gdocs() +
-  scale_color_gdocs()
+  scale_color_gdocs() +
+  geom_vline(aes(xintercept = mean(Predicted), colour = "black"), linetype = "dashed", show.legend = F) +
+   geom_vline(aes(xintercept = quantile(Predicted, probs = 0.25), colour = "indianred4"), linetype = 2, show.legend = F) +
+   geom_vline(aes(xintercept = quantile(Predicted, probs = 0.75), colour = "indianred4"), linetype = 2, show.legend = F)
 ```
 
 Os parâmetros são obtidos a partir da junção dos data frames contidos em BLUPS_join$parameters usando a função merge. Os números nas colunas (exceto a primeira coluna) são arredondados para 4 casas decimais. O resultado é exibido como uma tabela formatada usando o pacote kableExtra.
