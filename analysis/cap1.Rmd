@@ -35,34 +35,36 @@ Nesta análise, utilizaremos os seguintes pacotes do R:
 library(tidyverse)       # Conjunto de pacotes para manipulação e visualização de dados
 library(DataExplorer)    # Ferramentas para análise exploratória de dados
 library(kableExtra)      # Melhorias para a criação de tabelas
+library(reshape2)        # Ferramentas para transformação de dados em formato longo ou amplo
 
 # Pacotes para análise estatística
 library(metan)           # Meta-análise
 library(factoextra)      # Ferramentas para análise de fatores e agrupamentos
-library(adegenet)
+library(rstatix)         # Extensões para análise estatística com ênfase em visualizações gráficas interativas
 
 # Pacotes para visualização de dados
 library(RColorBrewer)    # Esquemas de cores personalizados
 library(corrplot)        # Visualização de matrizes de correlação
 library(gplots)          # Ferramentas para visualização de dados
+library(ggthemes)        # Temas adicionais para gráficos ggplot2
+library(GGally)          # Ferramentas para visualização de gráficos de matriz com o ggplot2
+library(ggstatsplot)     # Gráficos estatísticos interativos
+library(pals)            # Paletas de cores personalizadas
+
+# Pacotes para paralelização e iteração
+library(doParallel)      # Paralelização de tarefas em R
+library(foreach)         # Funções de iteração
+
+# Pacotes adicionais para gráficos e estatísticas
 library(compiler)        # Compilação de funções para melhorar a velocidade de execução
 library(scatterplot3d)   # Gráficos de dispersão em 3D
 library(ComplexHeatmap)  # Visualização de dados complexos em heatmap
 library(circlize)        # Visualização circular de dados
 library(dendextend)      # Extensões para manipulação de dendrogramas
-
-# Pacotes para paralelização e iteração
-library(doParallel)
-library(foreach)
-
-# Pacotes adicionais para gráficos e estatísticas
-library(ggthemes)        # Temas adicionais para gráficos ggplot2
-library(GGally)          # Ferramentas para visualização de gráficos de matriz com o ggplot2
 library(PMCMRplus)       # Comparação em pares
-library(ggstatsplot)     # Gráficos estatísticos interativos
-library(rstatix)
-library(pals)
-library(reshape2)
+library(rstatix)         # Extensões para análise estatística com ênfase em visualizações gráficas interativas
+library(pals)            # Paletas de cores personalizadas
+library(reshape2)        # Ferramentas para transformação de dados 
 ```
 
 
@@ -883,7 +885,7 @@ mean_germ_cluster <- BLUPS_join %>%
     labels = names_var
   )) %>%
   pivot_wider(names_from = trait, values_from = Predicted) %>%
-  select(germplasmName, cluster, Visc_max:Temp_emp) %>%
+  select(germplasmName, cluster, all_of(names_var)) %>%
   group_by(germplasmName, cluster) %>%
   summarise_if(is.numeric, mean, na.rm = TRUE)
 
