@@ -1,0 +1,769 @@
+---
+title: "Capítulo 2"
+author: 
+  - Costa, W. G.^[Weverton Gomes da Costa, Pós-Doutorando, Embrapa Mandioca e Fruticultura, wevertonufv@gmail.com]
+date: "`r Sys.Date()`"
+site: workflowr::wflow_site
+output:
+  workflowr::wflow_html:
+    toc: false
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=F} 
+knitr::opts_chunk$set(
+  echo = T,
+  warning = F,
+  message = F,
+  fig.width = 12,
+  fig.height = 8
+)
+gc()
+```
+
+# Variabilidade genética de acessos de mandioca para tamanho e formato dos grãos e suas implicações nas propriedades de pasta
+
+Este projeto tem como objetivo realizar uma análise da diversidade genética do tamanho dos grânulos de amido na cultura da mandioca. Serão utilizados dados coletados em diferentes anos, visando identificar a variação existente nos genótipos da mandioca.
+
+## Pacotes
+
+Nesta análise, utilizaremos os seguintes pacotes do R:
+
+```{r}
+# Pacotes para manipulação e visualização de dados
+library(tidyverse)       # Conjunto de pacotes para manipulação e visualização de dados
+library(DataExplorer)    # Ferramentas para análise exploratória de dados
+library(kableExtra)      # Melhorias para a criação de tabelas
+
+# Pacotes para análise estatística
+library(metan)           # Meta-análise
+library(factoextra)      # Ferramentas para análise de fatores e agrupamentos
+library(adegenet)
+
+# Pacotes para visualização de dados
+library(RColorBrewer)    # Esquemas de cores personalizados
+library(corrplot)        # Visualização de matrizes de correlação
+library(gplots)          # Ferramentas para visualização de dados
+library(compiler)        # Compilação de funções para melhorar a velocidade de execução
+library(scatterplot3d)   # Gráficos de dispersão em 3D
+library(ComplexHeatmap)  # Visualização de dados complexos em heatmap
+library(circlize)        # Visualização circular de dados
+library(dendextend)      # Extensões para manipulação de dendrogramas
+
+# Pacotes para paralelização e iteração
+library(doParallel)
+library(foreach)
+
+# Pacotes adicionais para gráficos e estatísticas
+library(ggthemes)        # Temas adicionais para gráficos ggplot2
+library(GGally)          # Ferramentas para visualização de gráficos de matriz com o ggplot2
+library(PMCMRplus)       # Comparação em pares
+library(ggstatsplot)     # Gráficos estatísticos interativos
+library(rstatix)
+```
+
+
+## Análise Descritiva
+
+Nesta etapa, serão realizadas as seguintes tarefas:
+
+### Leitura e pré-processamento dos dados
+
+Os dados são lidos a partir do arquivo "dados_RVA.xlsx" e passam por um processo de pré-processamento. Isso inclui a limpeza dos nomes das colunas, a seleção das variáveis relevantes, a transformação dos tipos de dados, a remoção de valores ausentes e o cálculo da média para as variáveis numéricas. Também são realizadas outras transformações nos dados, como a conversão de fatores e a filtragem de registros com valores inválidos.
+
+```{r}
+nomes_corretos <-
+  readxl::read_xlsx("data/Label Taxa nome dos clones GBS DART CHIP.xlsx") %>%
+  mutate_if(is.logical, as.character) %>%
+  pivot_longer(cols = c(2, 7:13),
+               names_to = "synonyms",
+               values_to = "BAD_NAME") %>%
+  select(`GOOD NAME`, BAD_NAME) %>%
+  rename(amostras = BAD_NAME) %>% 
+  count(`GOOD NAME`, amostras) %>% 
+  na.omit() %>% 
+  select(1,2)
+
+geno <- read.csv("data/dados_gwas.csv") %>%
+  janitor::clean_names() %>%
+  select(amostras, ano, ensaio, repeticao:pasting_temp) %>%
+  mutate_if(is.character, as.factor) %>%
+  left_join(nomes_corretos) %>% 
+  mutate(repeticao = as.factor(ifelse(repeticao %% 2 == 0, 1, 2)),
+         ano = as.factor(ano),
+         amostras = ifelse(is.na(`GOOD NAME`), amostras, `GOOD NAME`)) %>%
+  group_by(amostras, ano, ensaio, repeticao) %>%
+  summarise_if(is.numeric, mean, na.rm = TRUE) %>%
+  ungroup() %>% 
+  distinct()
+```
+
+### Contagem de genótipos
+
+Nesta etapa, é realizada a contagem de genótipos que foram avaliados para cada ano. 
+
+```{r}
+# Contagem de genótipos
+dados2 <- dados %>%
+  count(amostras) %>% 
+  count(n) %>% 
+  arrange(n)
+
+# Tabela com contagem de genótipos
+dados2 %>%
+  kbl(
+    escape = FALSE,
+    align = 'c',
+    col.names = c("Nº de Genótipos", "Contagem")
+  ) %>%
+  kable_classic(
+    "hover",
+    full_width = FALSE,
+    position = "center",
+    fixed_thead = TRUE
+  )
+```
+
+A maioria dos genótipos foram repetidos em mais de um ano, o que é desejável para a análise.
+
+### Contagem de genótipos por ano
+
+Nesta etapa, é realizada a contagem do número de genótipos para cada ano. O objetivo é identificar a quantidade de genótipos presentes em cada ano de coleta dos dados.
+
+```{r}
+# Contagem de genótipos por ano
+dados2 <- dados %>%
+  count(ano, amostras)
+
+# Tabela com contagem de genótipos por ano
+dados2 %>%
+  group_by(ano) %>%
+  summarise(`Nº de genótipos` = length(amostras)) %>%
+  kbl(
+    escape = FALSE,
+    align = 'c',
+    col.names = c("Ano", "Nº de genótipos")
+  ) %>%
+  kable_classic(
+    "hover",
+    full_width = FALSE,
+    position = "center",
+    fixed_thead = TRUE
+  )
+```
+
+Observamos que os anos de 2017, 2018 e 2020 são os anos com a menor quantidade de genótipos. No entanto, continuaremos a análise descritiva para verificar se isso será algo problemático.
+
+```{r}
+dados2<- dados %>% 
+  count(ano, amostras)
+  
+genmat = model.matrix( ~ -1 + amostras, data = dados2)
+envmat = model.matrix( ~ -1 + ano, data = dados2)
+genenvmat = t(envmat) %*% genmat
+genenvmat_ch = ifelse(genenvmat == 1, "Present", "Abscent")
+
+genenvmat %*% t(genenvmat) %>%
+  kbl(escape = F,
+      align = 'c') %>%
+  kable_classic(
+    "hover",
+    full_width = F,
+    position = "center",
+    fixed_thead = T
+  )
+```
+
+Não houve nenhum clone reptido em todos os anos.
+
+### Distribuição de ensaios e repetição por ano
+
+Em seguida, verificamos a distribuição das características por ano utilizando a função `plot_bar` com o argumento `by = "ano"`. Isso nos permite gerar gráficos de barras que mostram a distribuição dos valores de cada variável em cada ano.
+
+```{r}
+plot_bar(dados, by = "ano", ggtheme = theme_gdocs())
+```
+
+Ao observar os resultados, identificamos que alguns ensaios possuem anos diferentes na coleta dos dados. Mas como o ano indica o ano de extração do amido e no máximo poderia ter sido obtido no ano posterior, como é o caso de todos os ensaios, vamos manter os dados assim.
+
+### Análise das variáveis
+
+Realizamos uma análise das variáveis presentes nos dados, buscando entender a distribuição e características de cada uma delas.
+
+Primeiramente, observamos um resumo dos dados pelas medidas descritivas.
+
+```{r}
+# Resumo dos dados pelas medidas descritivas
+summary(dados) %>% 
+  kbl(
+    escape = FALSE,
+    align = 'c'
+  ) %>%
+  kable_classic(
+    "hover",
+    full_width = FALSE,
+    position = "center",
+    fixed_thead = TRUE
+  )
+```
+
+Para peak_visc a setback, podemos observar uma discrepância dos valores mínimos até o 1º quartil, ou seja, esses dados possivelmente serão considerados outliers.
+
+Prosseguindo com a análise, avaliaremos a distribuição por ano utilizando a função plot_boxplot, agora agrupando os dados por ano.
+
+```{r}
+# Distribuição por ano usando boxplots
+plot_boxplot(
+  dados,
+  by = "ano",
+  nrow = 4,
+  ggtheme = theme_gdocs(),
+  geom_boxplot_args = list(outlier.colour = "red", outlier.shape = 1)
+)
+```
+
+O ano de 2017 apresenta uma baixa variação para a maioria das características, mas segue dentro do esperado quando comparado com os demais anos. Assim, iremos prosseguir inicialmente com todos os dados.
+
+### Análise das amostras
+
+Nesta etapa, realizamos uma análise das amostras presentes nos ensaios, com o objetivo de verificar detalhes dos dados e identificar possíveis problemas ou discrepâncias.
+
+Primeiramente, verificamos os detalhes dos dados por ensaio para todas as variáveis. Utilizamos a função ge_details para obter informações como média, desvio padrão, mínimo, máximo e contagem de valores ausentes para cada variável e ensaio.
+
+```{r}
+# Detalhes dos dados por ensaio
+ge_details(dados, ano, amostras, resp = everything()) %>%
+  t() %>%
+  kbl(escape = FALSE, align = 'c') %>%
+  kable_classic(
+    "hover",
+    full_width = FALSE,
+    position = "center",
+    fixed_thead = TRUE
+  )
+```
+
+Observamos que a variável setback apresenta coeficiente de variação (CV) alto, indicando uma maior variabilidade e possíveis valores discrepantes em alguns anos. Além disso o clone BGM-0895 no ano de 2017 apresentou menores valores para várias cracterísticas vamos eliminá-lo e verificar novamente os detalhes dos dados.
+
+
+```{r}
+dados <- dados %>% 
+  filter(amostras != "BGM-0895") %>% 
+  droplevels()
+
+# Detalhes dos dados por ensaio
+ge_details(dados, ano, amostras, resp = everything()) %>%
+  t() %>%
+  kbl(escape = FALSE, align = 'c') %>%
+  kable_classic(
+    "hover",
+    full_width = FALSE,
+    position = "center",
+    fixed_thead = TRUE
+  )
+```
+
+
+Também realizamos uma inspeção visual dos dados, removendo as colunas referentes às amostras e aos anos. Utilizamos a função `inspect` para gerar uma visualização dos dados em forma de tabela, com a opção de exibir gráficos para uma melhor compreensão. Os resultados são apresentados em uma tabela formatada.
+
+```{r}
+dados %>%
+  select(-amostras, -ensaio) %>%
+  inspect(verbose = FALSE, plot = TRUE) %>%
+  kbl(escape = FALSE, align = 'c') %>%
+  kable_classic(
+    "hover",
+    full_width = FALSE,
+    position = "center",
+    fixed_thead = TRUE
+  )
+```
+
+Em seguida, analisamos os histogramas das variáveis quantitativas. Utilizamos a função `plot_histogram` para gerar histogramas que mostram a distribuição dos valores de cada variável quantitativa.
+
+```{r}
+plot_histogram(dados, ggtheme = theme_gdocs())
+```
+
+Ao examinar os histogramas, identificamos que as variáveis aparentemente seguem uma distribuição normal. Portanto, podemos prosseguir com a análise de modelos mistos.
+
+## Modelos Mistos
+
+### Função para obter os parâmetros
+
+A função analise_metan_joint é definida para realizar a análise de metan em um modelo misto específico. Ela extrai os parâmetros de interesse, como a herdabilidade (H2), os valores BLUPs e os valores preditos. Os resultados são retornados como um tibble.
+
+```{r}
+analise_metan_joint <- function(model, trait) {
+  H2 <- get_model_data(model, "genpar") %>%
+    filter(Parameters == "Heritability") %>%
+    pull(trait)
+  
+  vcomp <- get_model_data(model, what = "vcomp")
+  
+  parameters <- get_model_data(model)
+  
+  BLUPS <- get_model_data(model, "ranef")$GEN
+  
+  Predicted_values <- predict(model) %>%
+    group_by(GEN) %>%
+    summarise(across(where(is.numeric), mean)) %>%
+    pull(trait)
+  
+  return(
+    tibble(
+      trait = trait,
+      H2 = H2,
+      germplasmName = BLUPS[[1]],
+      BLUPS = BLUPS[[2]],
+      parameters = list(parameters),
+      vcomp = list(vcomp),
+      Predicted = Predicted_values
+    )
+  )
+}
+
+```
+
+### Obtenção dos BLUPs
+
+Nesta etapa, realizamos a obtenção dos valores BLUPs (melhores predições lineares não viesadas) para cada característica (trait) utilizando modelos mistos. O processo é realizado em paralelo, utilizando múltiplos núcleos de processamento para otimizar a velocidade de execução.
+
+```{r}
+traits <- colnames(dados)[5:ncol(dados)]
+
+# Registrar os núcleos a serem usados
+registerDoParallel(cores = detectCores())
+
+# Loop externo
+BLUPS_join <-
+  foreach(
+    trait = traits,
+    .combine = bind_rows,
+    .multicombine = TRUE,
+    .verbose = TRUE
+  ) %dopar% {
+    
+    library(dplyr)
+    library(metan)
+    
+    DRG <- list()
+    
+    data <- dados %>%
+      select(1:4, all_of(trait)) %>%
+      na.omit() %>%
+      droplevels()
+    
+    model <-
+      gamem_met(
+        data,
+        env = ano,
+        gen = amostras,
+        rep = repeticao,
+        resp = sym(trait)
+      )
+    
+    drg <- list(analise_metan_joint(model, trait))
+    DRG <- append(DRG, drg)
+  }
+
+# Finalizar o registro dos núcleos
+registerDoSEQ()
+```
+
+O gráfico de densidade é gerado utilizando a variável BLUPS_join como base de dados. Ele exibe as densidades para cada característica (trait) usando diferentes preenchimentos e cores.
+
+```{r}
+BLUPS_join_mean <- BLUPS_join %>% 
+  group_by(trait) %>% 
+  summarise(mean_predicted = mean(Predicted),
+            quantile_1 = quantile(Predicted, probs = 0.25),
+            quantile_2 = quantile(Predicted, probs = 0.75))
+
+names = c("pasting_temp" = "Temperatura de empastamento (°C)",
+"setback" = "Tendência a retrogradação (cP)",
+"final_visc" = "Viscosidade final (cP)",
+"breakdown" = "Quebra de viscosidade (cP)",
+"min_visc_afheat" = "Viscosidade mínima após o aquecimento a 95 °C (cP)",
+"peak_visc" = "Viscosidade de pico ou máxima (cP)")
+
+levels(as.factor(BLUPS_join_mean$trait))
+
+BLUPS_join %>%
+  ggplot(aes(Predicted, after_stat(count), fill = trait, color = trait)) +
+  geom_density(show.legend = FALSE, alpha = 0.8)  +
+  geom_vline(data = BLUPS_join_mean, aes(xintercept = mean_predicted), colour = "black", linetype = "dashed", show.legend = F) +
+   geom_vline(data = BLUPS_join_mean, aes(xintercept = quantile_1), colour = "indianred4", linetype = 4, show.legend = F) +
+   geom_vline(data = BLUPS_join_mean, aes(xintercept = quantile_2), colour = "indianred4", linetype = 4, show.legend = F) +
+  facet_wrap(vars(trait), scales = "free", strip.position = "bottom", labeller = as_labeller(names)) +
+  theme_classic() +
+  theme(strip.background = element_blank(),
+        strip.placement = "outside", 
+        text = element_text(size = 15)) +
+  labs(y = "Density", x = "") +
+  scale_fill_gdocs() +
+  scale_color_gdocs() 
+
+ggsave("output/density_BLUPS.tiff", width = 12, height = 8)
+```
+
+Os parâmetros são obtidos a partir da junção dos data frames contidos em BLUPS_join$parameters usando a função merge. Os números nas colunas (exceto a primeira coluna) são arredondados para 4 casas decimais. O resultado é exibido como uma tabela formatada usando o pacote kableExtra.
+
+```{r}
+parametros <- Reduce(function(x, y) merge(x, y, all = TRUE), BLUPS_join$parameters)
+parametros[,-1] <- as.data.frame(lapply(parametros[,-1], function(x) round(x, 4)))
+
+parametros %>%
+  kbl(escape = FALSE, align = 'c') %>%
+  kable_classic("hover", full_width = FALSE, position = "center", fixed_thead = TRUE)
+
+write.table(parametros, file = "output/parametros.csv")
+```
+
+Os componetnes de variância são obtidos a partir da junção dos data frames contidos em BLUPS_join$vcomp usando a função merge. Os números nas colunas (exceto a primeira coluna) são arredondados para 4 casas decimais. O resultado é exibido como uma tabela formatada usando o pacote kableExtra.
+
+```{r}
+vcomp <- Reduce(function(x, y) merge(x, y, all = TRUE), BLUPS_join$vcomp)
+vcomp[,-1] <- as.data.frame(lapply(vcomp[,-1], function(x) round(x, 4)))
+
+vcomp %>%
+  kbl(escape = FALSE, align = 'c') %>%
+  kable_classic("hover", full_width = FALSE, position = "center", fixed_thead = TRUE)
+
+write.table(vcomp, file = "output/vcomp.csv")
+```
+
+### Plotando os componentes de variância
+
+Neste trecho de código, estamos plotando os componentes de variância. Primeiro, usamos a função pivot_longer para transformar os dados da matriz vcomp em um formato longo, onde cada variável de coluna é mapeada para uma única coluna. Em seguida, utilizamos a função ggplot para criar o gráfico de barras empilhadas. Definimos as variáveis estéticas x, y e fill, e personalizamos as etiquetas dos eixos, a legenda e o tema visual. Por fim, salvamos o gráfico em um arquivo chamado "varcomp.tiff".
+
+```{r}
+varcomp <- vcomp %>% 
+  pivot_longer(cols = 2:ncol(vcomp),
+               names_to = "Traits",
+               values_to = "vcov") %>% 
+  mutate(Traits = factor(Traits, labels = c("Quebra", "Visc_final", "Visc_min", "Temp_emp", "Visc_max", "Tend_retro")))
+
+varcomp %>%  
+  ggplot(aes(x = Traits, y = vcov, fill = Group, by = Traits)) +
+  geom_col(position = "fill")+ 
+  labs(y="Value",
+       x="Traits",
+       fill = "VarComp")+
+  scale_fill_gdocs()+
+  theme_minimal()+
+  theme(text = element_text(size = 15, face = "bold"),
+    axis.text.x = element_text(
+      size = 10,
+      angle = 45,
+      hjust = 1,
+      vjust = 1
+    )) 
+
+ggsave("output/varcomp.tiff", width = 12, height = 8)
+```
+
+### Salvando os BLUPs e os parametros
+
+Neste bloco, estamos salvando os resultados dos valores genéticos melhorados preditos (BLUPs) e os parâmetros em arquivos separados. Utilizamos a função save para salvar os objetos BLUPS_join, parametros e vcomp em arquivos chamados "BLUPS.Rdata", "parametros.Rdata" e "vcomp.Rdata", respectivamente.
+
+```{r}
+save(BLUPS_join, file = "output/BLUPS.Rdata")
+
+save(parametros, file = "output/parametros.Rdata")
+
+save(vcomp, file = "output/vcomp.Rdata")
+```
+
+### Correlações de Pearson
+
+Nesta parte do código, estamos calculando e visualizando as correlações de Pearson. Primeiro, realizamos algumas transformações nos dados, selecionando as colunas relevantes do dataframe BLUPS_join, pivotando os dados para que cada variável se torne uma coluna. Em seguida, calculamos a matriz de correlação de Pearson utilizando a função cor. Por fim, arredondamos a matriz de correlação e a exibimos na saída.
+
+```{r}
+
+phen <- BLUPS_join %>% 
+  mutate(trait = factor(trait, labels = c("Quebra", "Visc_final", "Visc_min", "Temp_emp", "Visc_max", "Tend_retro"))) %>%
+  dplyr::select(trait, germplasmName, Predicted) %>%
+  pivot_wider(names_from = trait, values_from = Predicted) %>%
+  column_to_rownames(var = "germplasmName")
+
+# Calcular a matriz de correlação de Pearson
+corMat <- cor(phen, use = "pairwise.complete.obs")
+
+# Visualizar a matriz de correlação arredondada
+round(corMat, 4)
+```
+
+### Correlograma
+
+Neste trecho, estamos criando um correlograma para visualizar as correlações entre as variáveis. Primeiro, calculamos a matriz de correlação utilizando a função cor com o método "pearson". Em seguida, salvamos a matriz de correlação em um arquivo chamado "Correlacao.txt". Além disso, realizamos um teste de significância para as correlações utilizando a função cor.mtest. Por fim, plotamos o correlograma usando a função corrplot, personalizando vários parâmetros relacionados à aparência e à legenda do gráfico.
+
+```{r}
+# Calcular a matriz de correlação
+corr_mat <- cor(phen, method = "pearson")
+
+# Salvar a matriz de correlação em um arquivo
+write.table(corr_mat, "output/Correlacao.txt")
+
+# Realizar o teste de significância para as correlações
+res1 <- cor.mtest(phen, conf.level = 0.95)
+
+
+# Plotar o correlograma
+corrplot(
+  corr_mat,
+  p.mat = res1$p,
+  sig.level = 0.05,
+  type = "upper",
+  method = "color",
+  outline = TRUE,
+  addgrid.col = "darkgray",
+  addrect = 4,
+  rect.col = "black",
+  rect.lwd = 5,
+  cl.pos = "b",
+  tl.col = "indianred4",
+  tl.cex = 1.1,
+  cl.cex = 1,
+  addCoef.col = "black",
+  number.digits = 2,
+  number.cex = 0.8,
+  col = colorRampPalette(c("darkred", "white", "darkgreen"))(100)
+)
+```
+
+### DAPC
+
+Neste trecho de código, estamos realizando a Análise de Componentes Principais Discrimitórios (DAPC). Utilizamos a função find.clusters para encontrar os clusters com base nos dados de fenótipo (phen). O parâmetro max.n define o número máximo de clusters a serem testados, n.pca especifica o número de componentes principais a serem mantidos na análise e scale indica se os dados devem ser padronizados. Em seguida, salvamos os clusters encontrados em um arquivo chamado "Clusters.txt".
+
+```{r}
+set.seed(123456)
+# Encontrar os clusters usando DAPC
+grp <- find.clusters(phen, max.n = 50, n.pca = 200, scale = TRUE, choose = TRUE, n.clust = 5)
+
+# Salvar os grupos a priori em um arquivo
+cluster <- data.frame(cluster = grp$grp)
+
+cluster$germplasmName <- rownames(cluster)
+
+# Salvar os clusters em um arquivo
+write.table(cluster, 'output/Clusters.txt', sep = " ")
+```
+
+#### Descrever os clusters usando DAPC
+
+Neste bloco, estamos descrevendo os clusters encontrados utilizando DAPC. A função dapc é aplicada aos dados de fenótipo (phen) e aos clusters encontrados (grp$grp). Em seguida, usamos a função scatter para plotar o gráfico de dispersão DAPC. Os parâmetros posi.da, bg e pch são utilizados para personalizar a aparência do gráfico. Por fim, salvamos o gráfico em um arquivo "cluster.tiff".
+
+```{r}
+# Descrever os clusters usando DAPC
+dapc1 <- dapc(phen, grp$grp, n.pca=3, n.da=3)
+
+# Plotar o gráfico de dispersão DAPC
+scatter(dapc1, posi.da = "bottomleft", bg = "white", pch = 17:22)
+```
+
+#### Plotar gráficos de dispersão PCA
+
+Nesta parte do código, estamos plotando gráficos de dispersão PCA (Análise de Componentes Principais) para as combinações de componentes principais 1 e 2, 1 e 3, e 2 e 3. Utilizamos a função scatter para criar os gráficos de dispersão, definindo os componentes principais desejados e personalizando os parâmetros label.inds, posi.da, bg e pch.
+
+```{r}
+PCA1x2 <- scatter(dapc1, 1, 2, label.inds = list(air = 0.5, pch = NA), posi.da = "topright")
+
+PCA1x3 <- scatter(dapc1, 1, 3, label.inds = list(air = 0.5, pch = NA), posi.da = "bottomright")
+
+PCA2x3 <- scatter(dapc1, 2, 3, label.inds = list(air = 0.5, pch = NA), posi.da = "bottomright")
+```
+
+#### Interpretação das associações de grupos
+
+Aqui, estamos obtendo as probabilidades a posteriori dos grupos utilizando a variável dapc1$posterior, que contém as informações sobre a atribuição de cada indivíduo a um determinado grupo. Em seguida, salvamos as probabilidades a posteriori em um arquivo chamado "Prob_a_posteriori.txt".
+
+```{r}
+# Obter as probabilidades a posteriori
+probpost <- dapc1$posterior
+
+# Salvar as probabilidades a posteriori em um arquivo
+write.table(probpost, 'output/Prob_a_posteriori.txt', sep = " ")
+```
+
+#### Plotar os gráficos de atribuição de grupos
+
+Neste trecho, estamos plotando os gráficos de atribuição de grupos com base nos resultados da DAPC. Utilizamos a função assignplot para criar os gráficos e definimos o parâmetro subset para especificar o número de indivíduos a serem exibidos nos gráficos. Por fim, salvamos os grupos a priori em um arquivo chamado "Cluster_a_priori.txt".
+
+```{r}
+# Plotar os gráficos de atribuição de grupos
+assignplot(dapc1, subset = 1:60)
+
+write.table(cluster, 'output/Cluster_a_priori.txt', sep = " ")
+```
+
+### Circular heatmap
+
+Nesta parte do código, estamos criando uma circular heatmap. Primeiro, definimos as cores para a heatmap usando a função colorRamp2. Em seguida, definimos uma função padronizar para padronizar as colunas dos dados de fenótipo. Depois, aplicamos a função de padronização a todas as colunas do dataframe phen utilizando a função lapply.
+
+Então, utilizamos a função circos.clear para limpar a plotagem anterior e configuramos alguns parâmetros com a função circos.par. Em seguida, criamos a heatmap circular com a função circos.heatmap, fornecendo os dados padronizados, a estrutura de divisão dos clusters, as cores, e personalizando os parâmetros `dend.side
+
+```{r}
+# Definir as cores para a heatmap
+col_fun1 = colorRamp2(
+  c(0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100),
+  c(
+    "blue4",
+    "lightblue",
+    "lightgreen",
+    "green",
+    "darkgreen",
+    "lightyellow",
+    "yellow",
+    "orange",
+    "orangered",
+    "red",
+    "red4"
+  )
+)
+
+# Calcular o número de clusters
+split = structure(1:5, names = 1:5)
+
+# Função para padronizar as colunas
+padronizar <- function(x) {
+  min_val <- min(x)
+  max_val <- max(x)
+  (x - min_val) / (max_val - min_val) * 100
+}
+
+# Aplicar a função de padronização em todas as colunas do dataframe
+phen_padronizado <- as.data.frame(lapply(phen, padronizar))
+
+# Plotar a circular heatmap
+circos.clear()
+
+circos.par(gap.after = c(2, 2, 2, 2, 10))
+
+circos.heatmap(
+  phen_padronizado,
+  split = split,
+  col = col_fun1,
+  dend.side = "inside",
+  track.height = 0.4,
+  dend.callback = function(dend, m, si) {
+    color_branches(dend, k = 1, col = split[si])
+  }
+)
+
+# Adicionar rótulos aos clusters
+circos.track(
+  track.index = get.current.track.index(),
+  panel.fun = function(x, y) {
+    circos.text(
+      CELL_META$xcenter,
+      CELL_META$cell.ylim[2] + convert_y(2, "mm"),
+      paste0(CELL_META$sector.index),
+      facing = "bending.inside",
+      cex = 0.8,
+      adj = c(1, 4.5),
+      niceFacing = TRUE
+    )
+  },
+  bg.border = NA
+)
+
+# Adicionar legenda
+lgd = Legend(title = "Range", col_fun = col_fun1)
+grid.draw(lgd)
+
+circos.clear()
+```
+
+## Analises comparativa dos cluster
+
+Este chunk realiza o carregamento dos dados e faz um join com a variável "cluster". O resultado é armazenado no objeto "BLUPS_join" e o arquivo é salvo como "BLUPS.RData".
+
+```{r}
+# Carrega o objeto BLUPS_join e faz um join com a variável cluster
+BLUPS_join <- BLUPS_join %>% 
+  full_join(cluster)
+
+# Salva o objeto BLUPS_join em um arquivo RData
+save(BLUPS_join, file = "output/BLUPS.RData")
+```
+
+###  Cálculo das médias
+
+São calculadas as médias dos valores das variáveis numéricas para cada combinação de "germplasmName" e "cluster". Os resultados são armazenados no objeto "mean_germ_cluster" e são salvos em um arquivo de texto.
+
+```{r}
+# Calcula as médias dos valores de cada variável numérica para cada combinação de germplasmName e cluster
+mean_germ_cluster <- BLUPS_join %>% 
+  mutate(trait = factor(trait, labels = c("Quebra", "Visc_final", "Visc_min", "Temp_emp", "Visc_max", "Tend_retro"))) %>%
+  pivot_wider(names_from = trait, values_from = Predicted) %>% 
+  select(germplasmName, cluster, Visc_max:Temp_emp) %>% 
+  group_by(germplasmName, cluster) %>% 
+  summarise_if(is.numeric, mean, na.rm = TRUE)
+
+# Salva as médias em um arquivo de texto
+write.table(mean_germ_cluster, "output/mean_germ_cluster.txt")
+```
+
+
+```{r}
+# Converte as variáveis cluster e trait para fatores e remove níveis não utilizados
+BLUPS_join <- BLUPS_join %>%
+  mutate(cluster = as.factor(cluster),
+         trait = factor(trait)) %>%
+  droplevels()
+```
+
+### Análise estatística e criação de gráficos
+
+são realizados testes estatísticos e a criação de gráficos para cada nível da variável "trait". Os resultados dos testes são armazenados nos objetos "stat.test" e "stat.test1". Em seguida, os gráficos são criados e adicionadas as significâncias usando a função "geom_signif" do pacote "ggsignif". Os gráficos criados anteriormente são combinados em uma única grade utilizando a função "combine_plots". O resultado é uma grade com os gráficos para cada nível da variável "trait".
+
+```{r}
+# Cria uma lista vazia para armazenar os gráficos de cada trait
+p <- list()
+
+# Loop sobre os níveis da variável trait
+for(i in levels(as.factor(BLUPS_join$trait))){
+
+  stat.test1 <- BLUPS_join %>%
+    filter(trait == i) %>%
+    t_test(Predicted ~ cluster) %>% 
+    add_xy_position()
+  
+  name <- names[[i]]
+  
+  # Cria o gráfico para cada trait, adicionando as significâncias
+  p[[i]] <- ggbetweenstats(
+    data = BLUPS_join %>% 
+      filter(trait == i),
+    x = cluster,
+    y = Predicted,
+    results.subtitle = FALSE,
+    pairwise.comparisons = FALSE, 
+    title = name,
+    xlab = "Cluster",
+    ylab = "") +
+    ggsignif::geom_signif(
+      comparisons = stat.test1$groups,
+      map_signif_level = TRUE,
+      annotations = stat.test1$p.adj.signif,
+      y_position = stat.test1$y.position,
+      test = NULL
+    )
+}
+
+# Combina os gráficos em uma única grade
+combine_plots(
+  plotlist = p,
+  plotgrid.args = list(nrow = 3)
+)
+```
+
+o gráfico combinado é salvo em um arquivo TIFF com o nome "boxplot_violine.tiff" e dimensões personalizadas.
+
+```{r}
+# Salva o gráfico em um arquivo TIFF
+ggsave("output/boxplot_violine.tiff", width = 16, height = 24)
+```
+
