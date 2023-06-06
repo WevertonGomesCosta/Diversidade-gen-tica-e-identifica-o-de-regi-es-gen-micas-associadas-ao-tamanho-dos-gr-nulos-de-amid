@@ -1,0 +1,3599 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Costa, W. G." />
+
+<meta name="date" content="2023-06-05" />
+
+<title>Capítulo 1</title>
+
+<script src="site_libs/header-attrs-2.22/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Diversidade genética e identificação de regiões genômicas associadas ao tamanho dos grânulos de amido em mandioca</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Capítulo 1</h1>
+<h4 class="author">Costa, W. G.<a href="#fn1" class="footnote-ref"
+id="fnref1"><sup>1</sup></a></h4>
+<h4 class="date">2023-06-05</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2023-06-05
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong>
+<code>Diversidade-gen-tica-e-identifica-o-de-regi-es-gen-micas-associadas-ao-tamanho-dos-gr-nulos-de-amid/</code>
+<span class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20230313code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20230313)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20230313code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20230313)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomWevertonGomesCostaDiversidadegenticaeidentificaoderegiesgenmicasassociadasaotamanhodosgrnulosdeamidtreec7737dbeddc0eaf545ee2c191af0c5be269b5b35targetblankc7737dba">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/WevertonGomesCosta/Diversidade-gen-tica-e-identifica-o-de-regi-es-gen-micas-associadas-ao-tamanho-dos-gr-nulos-de-amid/tree/c7737dbeddc0eaf545ee2c191af0c5be269b5b35" target="_blank">c7737db</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomWevertonGomesCostaDiversidadegenticaeidentificaoderegiesgenmicasassociadasaotamanhodosgrnulosdeamidtreec7737dbeddc0eaf545ee2c191af0c5be269b5b35targetblankc7737dba"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/WevertonGomesCosta/Diversidade-gen-tica-e-identifica-o-de-regi-es-gen-micas-associadas-ao-tamanho-dos-gr-nulos-de-amid/tree/c7737dbeddc0eaf545ee2c191af0c5be269b5b35" target="_blank">c7737db</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .RData
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+
+Untracked files:
+    Untracked:  analysis/cap2.Rmd
+    Untracked:  cluster.png
+    Untracked:  cor_heatmap.png
+    Untracked:  correlation.png
+    Untracked:  data/dados_RVA_final.xlsx
+    Untracked:  output/BLUPS.RData
+    Untracked:  output/BLUPS.Rdata
+    Untracked:  output/Cluster_a_priori.txt
+    Untracked:  output/Clusters.txt
+    Untracked:  output/Correlacao.txt
+    Untracked:  output/Prob_a_posteriori.txt
+    Untracked:  output/boxplot_violine.tiff
+    Untracked:  output/cluster.png
+    Untracked:  output/cor_heatmap.png
+    Untracked:  output/correlation.png
+    Untracked:  output/density_BLUPS.tiff
+    Untracked:  output/mean_germ_cluster.txt
+    Untracked:  output/parametros.Rdata
+    Untracked:  output/parametros.csv
+    Untracked:  output/varcomp.tiff
+    Untracked:  output/vcomp.Rdata
+    Untracked:  output/vcomp.csv
+
+Unstaged changes:
+    Modified:   .Rprofile
+    Modified:   .gitattributes
+    Modified:   .gitignore
+    Modified:   Diversidade-gen-tica-e-identifica-o-de-regi-es-gen-micas-associadas-ao-tamanho-dos-gr-nulos-de-amid.Rproj
+    Modified:   README.html
+    Modified:   README.md
+    Modified:   _workflowr.yml
+    Modified:   analysis/_site.yml
+    Modified:   analysis/about.Rmd
+    Modified:   analysis/index.Rmd
+    Modified:   analysis/license.Rmd
+    Modified:   code/README.md
+    Modified:   data/README.md
+    Modified:   data/dados_gwas.csv
+    Modified:   output/README.md
+    Deleted:    output/boxplot-H2.tiff
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/index.Rmd</code>) and HTML
+(<code>docs/index.html</code>) files. If you’ve configured a remote Git
+repository (see <code>?wflow_git_remote</code>), click on the hyperlinks
+in the table below to view the files as they were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/WevertonGomesCosta/Diversidade-gen-tica-e-identifica-o-de-regi-es-gen-micas-associadas-ao-tamanho-dos-gr-nulos-de-amid/blob/c7737dbeddc0eaf545ee2c191af0c5be269b5b35/analysis/index.Rmd" target="_blank">c7737db</a>
+</td>
+<td>
+WevertonGomesCosta
+</td>
+<td>
+2023-06-01
+</td>
+<td>
+Update index
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/WevertonGomesCosta/Diversidade-gen-tica-e-identifica-o-de-regi-es-gen-micas-associadas-ao-tamanho-dos-gr-nulos-de-amid/blob/e41495865fee4a28ea3f59ab4bc5735d953a6cda/analysis/index.Rmd" target="_blank">e414958</a>
+</td>
+<td>
+WevertonGomesCosta
+</td>
+<td>
+2023-06-01
+</td>
+<td>
+Update Readme
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/WevertonGomesCosta/Diversidade-gen-tica-e-identifica-o-de-regi-es-gen-micas-associadas-ao-tamanho-dos-gr-nulos-de-amid/blob/ce058e7ebf1c7c0359b394d754b6fa6e3d1494cd/analysis/index.Rmd" target="_blank">ce058e7</a>
+</td>
+<td>
+WevertonGomesCosta
+</td>
+<td>
+2023-06-01
+</td>
+<td>
+Update data, about and license
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/WevertonGomesCosta/Diversidade-gen-tica-e-identifica-o-de-regi-es-gen-micas-associadas-ao-tamanho-dos-gr-nulos-de-amid/blob/cf18bdbf838d7c91faec592a2038c92c9f7ded24/analysis/index.Rmd" target="_blank">cf18bdb</a>
+</td>
+<td>
+WevertonGomesCosta
+</td>
+<td>
+2023-05-29
+</td>
+<td>
+Analisys Blups
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/WevertonGomesCosta/Diversidade-gen-tica-e-identifica-o-de-regi-es-gen-micas-associadas-ao-tamanho-dos-gr-nulos-de-amid/blob/264f03e2afcc8d23e369d790da22a7114d469a96/analysis/index.Rmd" target="_blank">264f03e</a>
+</td>
+<td>
+WevertonGomesCosta
+</td>
+<td>
+2023-03-13
+</td>
+<td>
+Start workflowr project.
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div
+id="variabilidade-genética-de-acessos-de-mandioca-para-tamanho-e-formato-dos-grãos-e-suas-implicações-nas-propriedades-de-pasta"
+class="section level1">
+<h1>Variabilidade genética de acessos de mandioca para tamanho e formato
+dos grãos e suas implicações nas propriedades de pasta</h1>
+<p>Este projeto tem como objetivo realizar uma análise da diversidade
+genética do tamanho dos grânulos de amido na cultura da mandioca. Serão
+utilizados dados coletados em diferentes anos, visando identificar a
+variação existente nos genótipos da mandioca.</p>
+<div id="pacotes" class="section level2">
+<h2>Pacotes</h2>
+<p>Nesta análise, utilizaremos os seguintes pacotes do R:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pacotes para manipulação e visualização de dados</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)       <span class="co"># Conjunto de pacotes para manipulação e visualização de dados</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DataExplorer)    <span class="co"># Ferramentas para análise exploratória de dados</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)      <span class="co"># Melhorias para a criação de tabelas</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Pacotes para análise estatística</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(metan)           <span class="co"># Meta-análise</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra)      <span class="co"># Ferramentas para análise de fatores e agrupamentos</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(adegenet)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Pacotes para visualização de dados</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)    <span class="co"># Esquemas de cores personalizados</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)        <span class="co"># Visualização de matrizes de correlação</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gplots)          <span class="co"># Ferramentas para visualização de dados</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(compiler)        <span class="co"># Compilação de funções para melhorar a velocidade de execução</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scatterplot3d)   <span class="co"># Gráficos de dispersão em 3D</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ComplexHeatmap)  <span class="co"># Visualização de dados complexos em heatmap</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(circlize)        <span class="co"># Visualização circular de dados</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dendextend)      <span class="co"># Extensões para manipulação de dendrogramas</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Pacotes para paralelização e iteração</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doParallel)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(foreach)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Pacotes adicionais para gráficos e estatísticas</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggthemes)        <span class="co"># Temas adicionais para gráficos ggplot2</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)          <span class="co"># Ferramentas para visualização de gráficos de matriz com o ggplot2</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PMCMRplus)       <span class="co"># Comparação em pares</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggstatsplot)     <span class="co"># Gráficos estatísticos interativos</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstatix)</span></code></pre></div>
+</div>
+<div id="análise-descritiva" class="section level2">
+<h2>Análise Descritiva</h2>
+<p>Nesta etapa, serão realizadas as seguintes tarefas:</p>
+<div id="leitura-e-pré-processamento-dos-dados" class="section level3">
+<h3>Leitura e pré-processamento dos dados</h3>
+<p>Os dados são lidos a partir do arquivo “dados_RVA.xlsx” e passam por
+um processo de pré-processamento. Isso inclui a limpeza dos nomes das
+colunas, a seleção das variáveis relevantes, a transformação dos tipos
+de dados, a remoção de valores ausentes e o cálculo da média para as
+variáveis numéricas. Também são realizadas outras transformações nos
+dados, como a conversão de fatores e a filtragem de registros com
+valores inválidos.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>nomes_corretos <span class="ot">&lt;-</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  readxl<span class="sc">::</span><span class="fu">read_xlsx</span>(<span class="st">&quot;data/Label Taxa nome dos clones GBS DART CHIP.xlsx&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_if</span>(is.logical, as.character) <span class="sc">%&gt;%</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">7</span><span class="sc">:</span><span class="dv">13</span>),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">&quot;synonyms&quot;</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">&quot;BAD_NAME&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">`</span><span class="at">GOOD NAME</span><span class="st">`</span>, BAD_NAME) <span class="sc">%&gt;%</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">amostras =</span> BAD_NAME) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="st">`</span><span class="at">GOOD NAME</span><span class="st">`</span>, amostras) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span>,<span class="dv">2</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_xlsx</span>(<span class="st">&quot;data/dados_RVA_final.xlsx&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(amostras, ano, ensaio, repeticao<span class="sc">:</span>pasting_temp) <span class="sc">%&gt;%</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_if</span>(is.character, as.factor) <span class="sc">%&gt;%</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(nomes_corretos) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">repeticao =</span> <span class="fu">as.factor</span>(<span class="fu">ifelse</span>(repeticao <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>)),</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>         <span class="at">ano =</span> <span class="fu">as.factor</span>(ano),</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>         <span class="at">amostras =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(<span class="st">`</span><span class="at">GOOD NAME</span><span class="st">`</span>), amostras, <span class="st">`</span><span class="at">GOOD NAME</span><span class="st">`</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(amostras, ano, ensaio, repeticao) <span class="sc">%&gt;%</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise_if</span>(is.numeric, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>()</span></code></pre></div>
+</div>
+<div id="contagem-de-genótipos" class="section level3">
+<h3>Contagem de genótipos</h3>
+<p>Nesta etapa, é realizada a contagem de genótipos que foram avaliados
+para cada ano.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Contagem de genótipos</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>dados2 <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(amostras) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(n) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(n)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Tabela com contagem de genótipos</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>dados2 <span class="sc">%&gt;%</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">escape =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">align =</span> <span class="st">&#39;c&#39;</span>,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Nº de Genótipos&quot;</span>, <span class="st">&quot;Contagem&quot;</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;hover&quot;</span>,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">&quot;center&quot;</span>,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">fixed_thead =</span> <span class="cn">TRUE</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table class=" lightable-classic lightable-hover" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Nº de Genótipos
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Contagem
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+169
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+872
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+29
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+102
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+8
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+</tbody>
+</table>
+<p>A maioria dos genótipos foram repetidos em mais de um ano, o que é
+desejável para a análise.</p>
+</div>
+<div id="contagem-de-genótipos-por-ano" class="section level3">
+<h3>Contagem de genótipos por ano</h3>
+<p>Nesta etapa, é realizada a contagem do número de genótipos para cada
+ano. O objetivo é identificar a quantidade de genótipos presentes em
+cada ano de coleta dos dados.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Contagem de genótipos por ano</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>dados2 <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(ano, amostras)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Tabela com contagem de genótipos por ano</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>dados2 <span class="sc">%&gt;%</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ano) <span class="sc">%&gt;%</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="st">`</span><span class="at">Nº de genótipos</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">length</span>(amostras)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">escape =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">align =</span> <span class="st">&#39;c&#39;</span>,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Ano&quot;</span>, <span class="st">&quot;Nº de genótipos&quot;</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;hover&quot;</span>,</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">&quot;center&quot;</span>,</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">fixed_thead =</span> <span class="cn">TRUE</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table class=" lightable-classic lightable-hover" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Ano
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Nº de genótipos
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+2011
+</td>
+<td style="text-align:center;">
+476
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2012
+</td>
+<td style="text-align:center;">
+383
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2013
+</td>
+<td style="text-align:center;">
+171
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2017
+</td>
+<td style="text-align:center;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2018
+</td>
+<td style="text-align:center;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2019
+</td>
+<td style="text-align:center;">
+101
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2020
+</td>
+<td style="text-align:center;">
+102
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2021
+</td>
+<td style="text-align:center;">
+73
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+2022
+</td>
+<td style="text-align:center;">
+9
+</td>
+</tr>
+</tbody>
+</table>
+<p>Observamos que os anos de 2017, 2018 e 2020 são os anos com a menor
+quantidade de genótipos. No entanto, continuaremos a análise descritiva
+para verificar se isso será algo problemático.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dados2<span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(ano, amostras)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>genmat <span class="ot">=</span> <span class="fu">model.matrix</span>( <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> amostras, <span class="at">data =</span> dados2)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>envmat <span class="ot">=</span> <span class="fu">model.matrix</span>( <span class="sc">~</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">+</span> ano, <span class="at">data =</span> dados2)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>genenvmat <span class="ot">=</span> <span class="fu">t</span>(envmat) <span class="sc">%*%</span> genmat</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>genenvmat_ch <span class="ot">=</span> <span class="fu">ifelse</span>(genenvmat <span class="sc">==</span> <span class="dv">1</span>, <span class="st">&quot;Present&quot;</span>, <span class="st">&quot;Abscent&quot;</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>genenvmat <span class="sc">%*%</span> <span class="fu">t</span>(genenvmat) <span class="sc">%&gt;%</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">escape =</span> F,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">align =</span> <span class="st">&#39;c&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;hover&quot;</span>,</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> F,</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">&quot;center&quot;</span>,</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">fixed_thead =</span> T</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table class=" lightable-classic lightable-hover" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+ano2011
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+ano2012
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+ano2013
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+ano2017
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+ano2018
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+ano2019
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+ano2020
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+ano2021
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+ano2022
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+ano2011
+</td>
+<td style="text-align:center;">
+476
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+26
+</td>
+<td style="text-align:center;">
+11
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ano2012
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+383
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+21
+</td>
+<td style="text-align:center;">
+18
+</td>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:center;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ano2013
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+171
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+16
+</td>
+<td style="text-align:center;">
+10
+</td>
+<td style="text-align:center;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ano2017
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ano2018
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ano2019
+</td>
+<td style="text-align:center;">
+26
+</td>
+<td style="text-align:center;">
+21
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+101
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ano2020
+</td>
+<td style="text-align:center;">
+11
+</td>
+<td style="text-align:center;">
+18
+</td>
+<td style="text-align:center;">
+16
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+102
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ano2021
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:center;">
+10
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+73
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ano2022
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+9
+</td>
+</tr>
+</tbody>
+</table>
+<p>Não houve nenhum clone reptido em todos os anos.</p>
+</div>
+<div id="distribuição-de-ensaios-e-repetição-por-ano"
+class="section level3">
+<h3>Distribuição de ensaios e repetição por ano</h3>
+<p>Em seguida, verificamos a distribuição das características por ano
+utilizando a função <code>plot_bar</code> com o argumento
+<code>by = "ano"</code>. Isso nos permite gerar gráficos de barras que
+mostram a distribuição dos valores de cada variável em cada ano.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_bar</span>(dados, <span class="at">by =</span> <span class="st">&quot;ano&quot;</span>, <span class="at">ggtheme =</span> <span class="fu">theme_gdocs</span>())</span></code></pre></div>
+<p><img src="figure/index.Rmd/unnamed-chunk-6-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>Ao observar os resultados, identificamos que alguns ensaios possuem
+anos diferentes na coleta dos dados. Mas como o ano indica o ano de
+extração do amido e no máximo poderia ter sido obtido no ano posterior,
+como é o caso de todos os ensaios, vamos manter os dados assim.</p>
+</div>
+<div id="análise-das-variáveis" class="section level3">
+<h3>Análise das variáveis</h3>
+<p>Realizamos uma análise das variáveis presentes nos dados, buscando
+entender a distribuição e características de cada uma delas.</p>
+<p>Primeiramente, observamos um resumo dos dados pelas medidas
+descritivas.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Resumo dos dados pelas medidas descritivas</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dados) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">escape =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">align =</span> <span class="st">&#39;c&#39;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;hover&quot;</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">&quot;center&quot;</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">fixed_thead =</span> <span class="cn">TRUE</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table class=" lightable-classic lightable-hover" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+amostras
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+ano
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+ensaio
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+repeticao
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+peak_visc
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+min_visc_afheat
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+breakdown
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+final_visc
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+setback
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+pasting_temp
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+Length:2463
+</td>
+<td style="text-align:center;">
+2011 :864
+</td>
+<td style="text-align:center;">
+BR.BAG2.PT.11.EA1 :450
+</td>
+<td style="text-align:center;">
+1:1132
+</td>
+<td style="text-align:center;">
+Min. :2832
+</td>
+<td style="text-align:center;">
+Min. : 208
+</td>
+<td style="text-align:center;">
+Min. :1414
+</td>
+<td style="text-align:center;">
+Min. : 246
+</td>
+<td style="text-align:center;">
+Min. : 38
+</td>
+<td style="text-align:center;">
+Min. :59.27
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+Class :character
+</td>
+<td style="text-align:center;">
+2012 :687
+</td>
+<td style="text-align:center;">
+BR.BAG1.PT.11.EA1 :414
+</td>
+<td style="text-align:center;">
+2:1331
+</td>
+<td style="text-align:center;">
+1st Qu.:4371
+</td>
+<td style="text-align:center;">
+1st Qu.:1498
+</td>
+<td style="text-align:center;">
+1st Qu.:2780
+</td>
+<td style="text-align:center;">
+1st Qu.:2414
+</td>
+<td style="text-align:center;">
+1st Qu.: 822
+</td>
+<td style="text-align:center;">
+1st Qu.:68.70
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+Mode :character
+</td>
+<td style="text-align:center;">
+2013 :312
+</td>
+<td style="text-align:center;">
+BR.BAG1.PT.12.EA1 :290
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+Median :4729
+</td>
+<td style="text-align:center;">
+Median :1674
+</td>
+<td style="text-align:center;">
+Median :3032
+</td>
+<td style="text-align:center;">
+Median :2743
+</td>
+<td style="text-align:center;">
+Median :1048
+</td>
+<td style="text-align:center;">
+Median :70.20
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+2020 :210
+</td>
+<td style="text-align:center;">
+BR.BAG.PT.12.Citrus:229
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+Mean :4696
+</td>
+<td style="text-align:center;">
+Mean :1654
+</td>
+<td style="text-align:center;">
+Mean :3042
+</td>
+<td style="text-align:center;">
+Mean :2662
+</td>
+<td style="text-align:center;">
+Mean :1033
+</td>
+<td style="text-align:center;">
+Mean :70.01
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+2019 :202
+</td>
+<td style="text-align:center;">
+BR.BAG1.PT.13.NH1A :222
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+3rd Qu.:5041
+</td>
+<td style="text-align:center;">
+3rd Qu.:1844
+</td>
+<td style="text-align:center;">
+3rd Qu.:3294
+</td>
+<td style="text-align:center;">
+3rd Qu.:3006
+</td>
+<td style="text-align:center;">
+3rd Qu.:1255
+</td>
+<td style="text-align:center;">
+3rd Qu.:71.05
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+2021 :150
+</td>
+<td style="text-align:center;">
+BR.BAG.19 :198
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+Max. :7372
+</td>
+<td style="text-align:center;">
+Max. :2603
+</td>
+<td style="text-align:center;">
+Max. :5276
+</td>
+<td style="text-align:center;">
+Max. :3822
+</td>
+<td style="text-align:center;">
+Max. :2472
+</td>
+<td style="text-align:center;">
+Max. :75.25
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+(Other): 38
+</td>
+<td style="text-align:center;">
+(Other) :660
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+NA’s :26
+</td>
+<td style="text-align:center;">
+NA’s :26
+</td>
+<td style="text-align:center;">
+NA’s :26
+</td>
+<td style="text-align:center;">
+NA’s :26
+</td>
+<td style="text-align:center;">
+NA’s :26
+</td>
+<td style="text-align:center;">
+NA’s :26
+</td>
+</tr>
+</tbody>
+</table>
+<p>Para peak_visc a setback, podemos observar uma discrepância dos
+valores mínimos até o 1º quartil, ou seja, esses dados possivelmente
+serão considerados outliers.</p>
+<p>Prosseguindo com a análise, avaliaremos a distribuição por ano
+utilizando a função plot_boxplot, agora agrupando os dados por ano.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribuição por ano usando boxplots</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_boxplot</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  dados,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="st">&quot;ano&quot;</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">nrow =</span> <span class="dv">4</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">ggtheme =</span> <span class="fu">theme_gdocs</span>(),</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">geom_boxplot_args =</span> <span class="fu">list</span>(<span class="at">outlier.colour =</span> <span class="st">&quot;red&quot;</span>, <span class="at">outlier.shape =</span> <span class="dv">1</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><img src="figure/index.Rmd/unnamed-chunk-8-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>O ano de 2017 apresenta uma baixa variação para a maioria das
+características, mas segue dentro do esperado quando comparado com os
+demais anos. Assim, iremos prosseguir inicialmente com todos os
+dados.</p>
+</div>
+<div id="análise-das-amostras" class="section level3">
+<h3>Análise das amostras</h3>
+<p>Nesta etapa, realizamos uma análise das amostras presentes nos
+ensaios, com o objetivo de verificar detalhes dos dados e identificar
+possíveis problemas ou discrepâncias.</p>
+<p>Primeiramente, verificamos os detalhes dos dados por ensaio para
+todas as variáveis. Utilizamos a função ge_details para obter
+informações como média, desvio padrão, mínimo, máximo e contagem de
+valores ausentes para cada variável e ensaio.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Detalhes dos dados por ensaio</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ge_details</span>(dados, ano, amostras, <span class="at">resp =</span> <span class="fu">everything</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">escape =</span> <span class="cn">FALSE</span>, <span class="at">align =</span> <span class="st">&#39;c&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;hover&quot;</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">&quot;center&quot;</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">fixed_thead =</span> <span class="cn">TRUE</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table class=" lightable-classic lightable-hover" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
+<tbody>
+<tr>
+<td style="text-align:left;">
+Parameters
+</td>
+<td style="text-align:center;">
+Mean
+</td>
+<td style="text-align:center;">
+SE
+</td>
+<td style="text-align:center;">
+SD
+</td>
+<td style="text-align:center;">
+CV
+</td>
+<td style="text-align:center;">
+Min
+</td>
+<td style="text-align:center;">
+Max
+</td>
+<td style="text-align:center;">
+MinENV
+</td>
+<td style="text-align:center;">
+MaxENV
+</td>
+<td style="text-align:center;">
+MinGEN
+</td>
+<td style="text-align:center;">
+MaxGEN
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+peak_visc
+</td>
+<td style="text-align:center;">
+4695.74
+</td>
+<td style="text-align:center;">
+11.5
+</td>
+<td style="text-align:center;">
+567.63
+</td>
+<td style="text-align:center;">
+12.09
+</td>
+<td style="text-align:center;">
+2832 (BR-19F2Wx-356-2 in 2022)
+</td>
+<td style="text-align:center;">
+7372 (BGM-0327 in 2011)
+</td>
+<td style="text-align:center;">
+2017 (3699.57)
+</td>
+<td style="text-align:center;">
+2013 (4858.82)
+</td>
+<td style="text-align:center;">
+BR-19F2Wx-356-2 (2836.5)
+</td>
+<td style="text-align:center;">
+BGM-2025 (6676.5)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+min_visc_afheat
+</td>
+<td style="text-align:center;">
+1654.17
+</td>
+<td style="text-align:center;">
+5.89
+</td>
+<td style="text-align:center;">
+290.6
+</td>
+<td style="text-align:center;">
+17.57
+</td>
+<td style="text-align:center;">
+208 (BGM-0895 in 2019)
+</td>
+<td style="text-align:center;">
+2603 (BGM-1158 in 2012)
+</td>
+<td style="text-align:center;">
+2021 (1448.89)
+</td>
+<td style="text-align:center;">
+2018 (1827.33)
+</td>
+<td style="text-align:center;">
+BGM-0942 (506)
+</td>
+<td style="text-align:center;">
+BGM-1158 (2581.25)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+breakdown
+</td>
+<td style="text-align:center;">
+3041.57
+</td>
+<td style="text-align:center;">
+8.9
+</td>
+<td style="text-align:center;">
+439.21
+</td>
+<td style="text-align:center;">
+14.44
+</td>
+<td style="text-align:center;">
+1414 (BGM-1177 in 2012)
+</td>
+<td style="text-align:center;">
+5276 (BGM-0327 in 2011)
+</td>
+<td style="text-align:center;">
+2017 (2194.43)
+</td>
+<td style="text-align:center;">
+2013 (3200.2)
+</td>
+<td style="text-align:center;">
+BGM-1177 (1418.5)
+</td>
+<td style="text-align:center;">
+BGM-1403 (4865.5)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+final_visc
+</td>
+<td style="text-align:center;">
+2662.11
+</td>
+<td style="text-align:center;">
+10.5
+</td>
+<td style="text-align:center;">
+518
+</td>
+<td style="text-align:center;">
+19.46
+</td>
+<td style="text-align:center;">
+246 (BGM-0895 in 2019)
+</td>
+<td style="text-align:center;">
+3822 (BGM-0958 in 2012)
+</td>
+<td style="text-align:center;">
+2017 (2113.86)
+</td>
+<td style="text-align:center;">
+2018 (2859)
+</td>
+<td style="text-align:center;">
+BGM-0942 (581.5)
+</td>
+<td style="text-align:center;">
+BGM-0958 (3822)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+setback
+</td>
+<td style="text-align:center;">
+1032.87
+</td>
+<td style="text-align:center;">
+6.58
+</td>
+<td style="text-align:center;">
+324.79
+</td>
+<td style="text-align:center;">
+31.45
+</td>
+<td style="text-align:center;">
+38 (BGM-0895 in 2019)
+</td>
+<td style="text-align:center;">
+2472 (BGM-1123 in 2012)
+</td>
+<td style="text-align:center;">
+2017 (608.71)
+</td>
+<td style="text-align:center;">
+2013 (1172.46)
+</td>
+<td style="text-align:center;">
+BGM-0971 (46.5)
+</td>
+<td style="text-align:center;">
+BGM-1123 (2233)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pasting_temp
+</td>
+<td style="text-align:center;">
+70.01
+</td>
+<td style="text-align:center;">
+0.04
+</td>
+<td style="text-align:center;">
+1.76
+</td>
+<td style="text-align:center;">
+2.52
+</td>
+<td style="text-align:center;">
+59.27 (BGM-1410 in 2012)
+</td>
+<td style="text-align:center;">
+75.25 (BGM-0495 in 2011)
+</td>
+<td style="text-align:center;">
+2017 (66.71)
+</td>
+<td style="text-align:center;">
+2021 (71.2)
+</td>
+<td style="text-align:center;">
+BGM-1407 (63.31)
+</td>
+<td style="text-align:center;">
+BGM-0808 (75.2)
+</td>
+</tr>
+</tbody>
+</table>
+<p>Observamos que a variável setback apresenta coeficiente de variação
+(CV) alto, indicando uma maior variabilidade e possíveis valores
+discrepantes em alguns anos. Além disso o clone BGM-0895 no ano de 2017
+apresentou menores valores para várias cracterísticas vamos eliminá-lo e
+verificar novamente os detalhes dos dados.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(amostras <span class="sc">!=</span> <span class="st">&quot;BGM-0895&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">droplevels</span>()</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Detalhes dos dados por ensaio</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ge_details</span>(dados, ano, amostras, <span class="at">resp =</span> <span class="fu">everything</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">escape =</span> <span class="cn">FALSE</span>, <span class="at">align =</span> <span class="st">&#39;c&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;hover&quot;</span>,</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">&quot;center&quot;</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">fixed_thead =</span> <span class="cn">TRUE</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<table class=" lightable-classic lightable-hover" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
+<tbody>
+<tr>
+<td style="text-align:left;">
+Parameters
+</td>
+<td style="text-align:center;">
+Mean
+</td>
+<td style="text-align:center;">
+SE
+</td>
+<td style="text-align:center;">
+SD
+</td>
+<td style="text-align:center;">
+CV
+</td>
+<td style="text-align:center;">
+Min
+</td>
+<td style="text-align:center;">
+Max
+</td>
+<td style="text-align:center;">
+MinENV
+</td>
+<td style="text-align:center;">
+MaxENV
+</td>
+<td style="text-align:center;">
+MinGEN
+</td>
+<td style="text-align:center;">
+MaxGEN
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+peak_visc
+</td>
+<td style="text-align:center;">
+4697.26
+</td>
+<td style="text-align:center;">
+11.47
+</td>
+<td style="text-align:center;">
+565.87
+</td>
+<td style="text-align:center;">
+12.05
+</td>
+<td style="text-align:center;">
+2832 (BR-19F2Wx-356-2 in 2022)
+</td>
+<td style="text-align:center;">
+7372 (BGM-0327 in 2011)
+</td>
+<td style="text-align:center;">
+2017 (3699.57)
+</td>
+<td style="text-align:center;">
+2013 (4858.82)
+</td>
+<td style="text-align:center;">
+BR-19F2Wx-356-2 (2836.5)
+</td>
+<td style="text-align:center;">
+BGM-2025 (6676.5)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+min_visc_afheat
+</td>
+<td style="text-align:center;">
+1655.56
+</td>
+<td style="text-align:center;">
+5.84
+</td>
+<td style="text-align:center;">
+287.79
+</td>
+<td style="text-align:center;">
+17.39
+</td>
+<td style="text-align:center;">
+228 (BGM-0729 in 2012)
+</td>
+<td style="text-align:center;">
+2603 (BGM-1158 in 2012)
+</td>
+<td style="text-align:center;">
+2021 (1448.89)
+</td>
+<td style="text-align:center;">
+2018 (1827.33)
+</td>
+<td style="text-align:center;">
+BGM-0942 (506)
+</td>
+<td style="text-align:center;">
+BGM-1158 (2581.25)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+breakdown
+</td>
+<td style="text-align:center;">
+3041.7
+</td>
+<td style="text-align:center;">
+8.91
+</td>
+<td style="text-align:center;">
+439.46
+</td>
+<td style="text-align:center;">
+14.45
+</td>
+<td style="text-align:center;">
+1414 (BGM-1177 in 2012)
+</td>
+<td style="text-align:center;">
+5276 (BGM-0327 in 2011)
+</td>
+<td style="text-align:center;">
+2017 (2194.43)
+</td>
+<td style="text-align:center;">
+2013 (3200.2)
+</td>
+<td style="text-align:center;">
+BGM-1177 (1418.5)
+</td>
+<td style="text-align:center;">
+BGM-1403 (4865.5)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+final_visc
+</td>
+<td style="text-align:center;">
+2664.4
+</td>
+<td style="text-align:center;">
+10.42
+</td>
+<td style="text-align:center;">
+513.68
+</td>
+<td style="text-align:center;">
+19.28
+</td>
+<td style="text-align:center;">
+338 (BGM-0729 in 2012)
+</td>
+<td style="text-align:center;">
+3822 (BGM-0958 in 2012)
+</td>
+<td style="text-align:center;">
+2017 (2113.86)
+</td>
+<td style="text-align:center;">
+2018 (2859)
+</td>
+<td style="text-align:center;">
+BGM-0942 (581.5)
+</td>
+<td style="text-align:center;">
+BGM-0958 (3822)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+setback
+</td>
+<td style="text-align:center;">
+1033.81
+</td>
+<td style="text-align:center;">
+6.57
+</td>
+<td style="text-align:center;">
+323.78
+</td>
+<td style="text-align:center;">
+31.33
+</td>
+<td style="text-align:center;">
+45 (BGM-0971 in 2021)
+</td>
+<td style="text-align:center;">
+2472 (BGM-1123 in 2012)
+</td>
+<td style="text-align:center;">
+2017 (608.71)
+</td>
+<td style="text-align:center;">
+2013 (1172.46)
+</td>
+<td style="text-align:center;">
+BGM-0971 (46.5)
+</td>
+<td style="text-align:center;">
+BGM-1123 (2233)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pasting_temp
+</td>
+<td style="text-align:center;">
+70.02
+</td>
+<td style="text-align:center;">
+0.04
+</td>
+<td style="text-align:center;">
+1.77
+</td>
+<td style="text-align:center;">
+2.52
+</td>
+<td style="text-align:center;">
+59.27 (BGM-1410 in 2012)
+</td>
+<td style="text-align:center;">
+75.25 (BGM-0495 in 2011)
+</td>
+<td style="text-align:center;">
+2017 (66.71)
+</td>
+<td style="text-align:center;">
+2021 (71.2)
+</td>
+<td style="text-align:center;">
+BGM-1407 (63.31)
+</td>
+<td style="text-align:center;">
+BGM-0808 (75.2)
+</td>
+</tr>
+</tbody>
+</table>
+<p>Também realizamos uma inspeção visual dos dados, removendo as colunas
+referentes às amostras e aos anos. Utilizamos a função
+<code>inspect</code> para gerar uma visualização dos dados em forma de
+tabela, com a opção de exibir gráficos para uma melhor compreensão. Os
+resultados são apresentados em uma tabela formatada.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>amostras, <span class="sc">-</span>ensaio) <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inspect</span>(<span class="at">verbose =</span> <span class="cn">FALSE</span>, <span class="at">plot =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">escape =</span> <span class="cn">FALSE</span>, <span class="at">align =</span> <span class="st">&#39;c&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;hover&quot;</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">full_width =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">&quot;center&quot;</span>,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">fixed_thead =</span> <span class="cn">TRUE</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<img src="figure/index.Rmd/unnamed-chunk-11-1.png" width="1152" style="display: block; margin: auto;" />
+<table class=" lightable-classic lightable-hover" style='font-family: "Arial Narrow", "Source Sans Pro", sans-serif; width: auto !important; margin-left: auto; margin-right: auto;'>
+<thead>
+<tr>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Variable
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Class
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Missing
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Levels
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Valid_n
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Min
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Median
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Max
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Outlier
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Text
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+ano
+</td>
+<td style="text-align:center;">
+factor
+</td>
+<td style="text-align:center;">
+No
+</td>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+2459
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+repeticao
+</td>
+<td style="text-align:center;">
+factor
+</td>
+<td style="text-align:center;">
+No
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+2459
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+peak_visc
+</td>
+<td style="text-align:center;">
+numeric
+</td>
+<td style="text-align:center;">
+Yes
+</td>
+<td style="text-align:center;">
+<ul>
+<li></td>
+<td style="text-align:center;">
+2433
+</td>
+<td style="text-align:center;">
+2832.00
+</td>
+<td style="text-align:center;">
+4729.5
+</td>
+<td style="text-align:center;">
+7372.00
+</td>
+<td style="text-align:center;">
+83
+</td>
+<td style="text-align:center;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+min_visc_afheat
+</td>
+<td style="text-align:center;">
+numeric
+</td>
+<td style="text-align:center;">
+Yes
+</td>
+<td style="text-align:center;">
+<ul>
+<li></td>
+<td style="text-align:center;">
+2433
+</td>
+<td style="text-align:center;">
+228.00
+</td>
+<td style="text-align:center;">
+1675.0
+</td>
+<td style="text-align:center;">
+2603.00
+</td>
+<td style="text-align:center;">
+83
+</td>
+<td style="text-align:center;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+breakdown
+</td>
+<td style="text-align:center;">
+numeric
+</td>
+<td style="text-align:center;">
+Yes
+</td>
+<td style="text-align:center;">
+<ul>
+<li></td>
+<td style="text-align:center;">
+2433
+</td>
+<td style="text-align:center;">
+1414.00
+</td>
+<td style="text-align:center;">
+3032.5
+</td>
+<td style="text-align:center;">
+5276.00
+</td>
+<td style="text-align:center;">
+82
+</td>
+<td style="text-align:center;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+final_visc
+</td>
+<td style="text-align:center;">
+numeric
+</td>
+<td style="text-align:center;">
+Yes
+</td>
+<td style="text-align:center;">
+<ul>
+<li></td>
+<td style="text-align:center;">
+2433
+</td>
+<td style="text-align:center;">
+338.00
+</td>
+<td style="text-align:center;">
+2744.0
+</td>
+<td style="text-align:center;">
+3822.00
+</td>
+<td style="text-align:center;">
+89
+</td>
+<td style="text-align:center;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+setback
+</td>
+<td style="text-align:center;">
+numeric
+</td>
+<td style="text-align:center;">
+Yes
+</td>
+<td style="text-align:center;">
+<ul>
+<li></td>
+<td style="text-align:center;">
+2433
+</td>
+<td style="text-align:center;">
+45.00
+</td>
+<td style="text-align:center;">
+1049.0
+</td>
+<td style="text-align:center;">
+2472.00
+</td>
+<td style="text-align:center;">
+24
+</td>
+<td style="text-align:center;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+pasting_temp
+</td>
+<td style="text-align:center;">
+numeric
+</td>
+<td style="text-align:center;">
+Yes
+</td>
+<td style="text-align:center;">
+<ul>
+<li></td>
+<td style="text-align:center;">
+2433
+</td>
+<td style="text-align:center;">
+59.27
+</td>
+<td style="text-align:center;">
+70.2
+</td>
+<td style="text-align:center;">
+75.25
+</td>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+NA
+</td>
+</tr>
+</tbody>
+</table></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<p>Em seguida, analisamos os histogramas das variáveis quantitativas.
+Utilizamos a função <code>plot_histogram</code> para gerar histogramas
+que mostram a distribuição dos valores de cada variável
+quantitativa.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_histogram</span>(dados, <span class="at">ggtheme =</span> <span class="fu">theme_gdocs</span>())</span></code></pre></div>
+<p><img src="figure/index.Rmd/unnamed-chunk-12-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>Ao examinar os histogramas, identificamos que as variáveis
+aparentemente seguem uma distribuição normal. Portanto, podemos
+prosseguir com a análise de modelos mistos.</p>
+</div>
+</div>
+<div id="modelos-mistos" class="section level2">
+<h2>Modelos Mistos</h2>
+<div id="função-para-obter-os-parâmetros" class="section level3">
+<h3>Função para obter os parâmetros</h3>
+<p>A função analise_metan_joint é definida para realizar a análise de
+metan em um modelo misto específico. Ela extrai os parâmetros de
+interesse, como a herdabilidade (H2), os valores BLUPs e os valores
+preditos. Os resultados são retornados como um tibble.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>analise_metan_joint <span class="ot">&lt;-</span> <span class="cf">function</span>(model, trait) {</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  H2 <span class="ot">&lt;-</span> <span class="fu">get_model_data</span>(model, <span class="st">&quot;genpar&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Parameters <span class="sc">==</span> <span class="st">&quot;Heritability&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(trait)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  vcomp <span class="ot">&lt;-</span> <span class="fu">get_model_data</span>(model, <span class="at">what =</span> <span class="st">&quot;vcomp&quot;</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  parameters <span class="ot">&lt;-</span> <span class="fu">get_model_data</span>(model)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  BLUPS <span class="ot">&lt;-</span> <span class="fu">get_model_data</span>(model, <span class="st">&quot;ranef&quot;</span>)<span class="sc">$</span>GEN</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  Predicted_values <span class="ot">&lt;-</span> <span class="fu">predict</span>(model) <span class="sc">%&gt;%</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(GEN) <span class="sc">%&gt;%</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), mean)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(trait)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tibble</span>(</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">trait =</span> trait,</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">H2 =</span> H2,</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">germplasmName =</span> BLUPS[[<span class="dv">1</span>]],</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">BLUPS =</span> BLUPS[[<span class="dv">2</span>]],</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">parameters =</span> <span class="fu">list</span>(parameters),</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">vcomp =</span> <span class="fu">list</span>(vcomp),</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">Predicted =</span> Predicted_values</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div id="obtenção-dos-blups" class="section level3">
+<h3>Obtenção dos BLUPs</h3>
+<p>Nesta etapa, realizamos a obtenção dos valores BLUPs (melhores
+predições lineares não viesadas) para cada característica (trait)
+utilizando modelos mistos. O processo é realizado em paralelo,
+utilizando múltiplos núcleos de processamento para otimizar a velocidade
+de execução.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>traits <span class="ot">&lt;-</span> <span class="fu">colnames</span>(dados)[<span class="dv">5</span><span class="sc">:</span><span class="fu">ncol</span>(dados)]</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Registrar os núcleos a serem usados</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">registerDoParallel</span>(<span class="at">cores =</span> <span class="fu">detectCores</span>())</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop externo</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>BLUPS_join <span class="ot">&lt;-</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">foreach</span>(</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">trait =</span> traits,</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">.combine =</span> bind_rows,</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">.multicombine =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">.verbose =</span> <span class="cn">TRUE</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%dopar%</span> {</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">library</span>(dplyr)</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">library</span>(metan)</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    DRG <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    data <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="fu">all_of</span>(trait)) <span class="sc">%&gt;%</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>      <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">droplevels</span>()</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>    model <span class="ot">&lt;-</span></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>      <span class="fu">gamem_met</span>(</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>        data,</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>        <span class="at">env =</span> ano,</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>        <span class="at">gen =</span> amostras,</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>        <span class="at">rep =</span> repeticao,</span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>        <span class="at">resp =</span> <span class="fu">sym</span>(trait)</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>    drg <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">analise_metan_joint</span>(model, trait))</span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>    DRG <span class="ot">&lt;-</span> <span class="fu">append</span>(DRG, drg)</span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
+<pre><code>numValues: 6, numResults: 0, stopped: TRUE
+got results for task 1
+numValues: 6, numResults: 1, stopped: TRUE
+returning status FALSE
+got results for task 2
+numValues: 6, numResults: 2, stopped: TRUE
+returning status FALSE
+got results for task 3
+numValues: 6, numResults: 3, stopped: TRUE
+returning status FALSE
+got results for task 4
+numValues: 6, numResults: 4, stopped: TRUE
+returning status FALSE
+got results for task 5
+numValues: 6, numResults: 5, stopped: TRUE
+returning status FALSE
+got results for task 6
+numValues: 6, numResults: 6, stopped: TRUE
+first call to combine function
+evaluating call object to combine results:
+  fun(result.1, result.2, result.3, result.4, result.5, result.6)
+returning status TRUE</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Finalizar o registro dos núcleos</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">registerDoSEQ</span>()</span></code></pre></div>
+<p>O gráfico de densidade é gerado utilizando a variável BLUPS_join como
+base de dados. Ele exibe as densidades para cada característica (trait)
+usando diferentes preenchimentos e cores.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>BLUPS_join_mean <span class="ot">&lt;-</span> BLUPS_join <span class="sc">%&gt;%</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(trait) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_predicted =</span> <span class="fu">mean</span>(Predicted),</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">quantile_1 =</span> <span class="fu">quantile</span>(Predicted, <span class="at">probs =</span> <span class="fl">0.25</span>),</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">quantile_2 =</span> <span class="fu">quantile</span>(Predicted, <span class="at">probs =</span> <span class="fl">0.75</span>))</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>names <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;pasting_temp&quot;</span> <span class="ot">=</span> <span class="st">&quot;Temperatura de empastamento (°C)&quot;</span>,</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;setback&quot;</span> <span class="ot">=</span> <span class="st">&quot;Tendência a retrogradação (cP)&quot;</span>,</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;final_visc&quot;</span> <span class="ot">=</span> <span class="st">&quot;Viscosidade final (cP)&quot;</span>,</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;breakdown&quot;</span> <span class="ot">=</span> <span class="st">&quot;Quebra de viscosidade (cP)&quot;</span>,</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;min_visc_afheat&quot;</span> <span class="ot">=</span> <span class="st">&quot;Viscosidade mínima após o aquecimento a 95 °C (cP)&quot;</span>,</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;peak_visc&quot;</span> <span class="ot">=</span> <span class="st">&quot;Viscosidade de pico ou máxima (cP)&quot;</span>)</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(<span class="fu">as.factor</span>(BLUPS_join_mean<span class="sc">$</span>trait))</span></code></pre></div>
+<pre><code>[1] &quot;breakdown&quot;       &quot;final_visc&quot;      &quot;min_visc_afheat&quot; &quot;pasting_temp&quot;   
+[5] &quot;peak_visc&quot;       &quot;setback&quot;        </code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>BLUPS_join <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(Predicted, <span class="fu">after_stat</span>(count), <span class="at">fill =</span> trait, <span class="at">color =</span> trait)) <span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>)  <span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">data =</span> BLUPS_join_mean, <span class="fu">aes</span>(<span class="at">xintercept =</span> mean_predicted), <span class="at">colour =</span> <span class="st">&quot;black&quot;</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">show.legend =</span> F) <span class="sc">+</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_vline</span>(<span class="at">data =</span> BLUPS_join_mean, <span class="fu">aes</span>(<span class="at">xintercept =</span> quantile_1), <span class="at">colour =</span> <span class="st">&quot;indianred4&quot;</span>, <span class="at">linetype =</span> <span class="dv">4</span>, <span class="at">show.legend =</span> F) <span class="sc">+</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">geom_vline</span>(<span class="at">data =</span> BLUPS_join_mean, <span class="fu">aes</span>(<span class="at">xintercept =</span> quantile_2), <span class="at">colour =</span> <span class="st">&quot;indianred4&quot;</span>, <span class="at">linetype =</span> <span class="dv">4</span>, <span class="at">show.legend =</span> F) <span class="sc">+</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(trait), <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>, <span class="at">strip.position =</span> <span class="st">&quot;bottom&quot;</span>, <span class="at">labeller =</span> <span class="fu">as_labeller</span>(names)) <span class="sc">+</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.placement =</span> <span class="st">&quot;outside&quot;</span>, </span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">15</span>)) <span class="sc">+</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Density&quot;</span>, <span class="at">x =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gdocs</span>() <span class="sc">+</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_gdocs</span>() </span></code></pre></div>
+<p><img src="figure/index.Rmd/unnamed-chunk-15-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;output/density_BLUPS.tiff&quot;</span>, <span class="at">width =</span> <span class="dv">12</span>, <span class="at">height =</span> <span class="dv">8</span>)</span></code></pre></div>
+<p>Os parâmetros são obtidos a partir da junção dos data frames contidos
+em BLUPS_join$parameters usando a função merge. Os números nas colunas
+(exceto a primeira coluna) são arredondados para 4 casas decimais. O
+resultado é exibido como uma tabela formatada usando o pacote
+kableExtra.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>parametros <span class="ot">&lt;-</span> <span class="fu">Reduce</span>(<span class="cf">function</span>(x, y) <span class="fu">merge</span>(x, y, <span class="at">all =</span> <span class="cn">TRUE</span>), BLUPS_join<span class="sc">$</span>parameters)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>parametros[,<span class="sc">-</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">lapply</span>(parametros[,<span class="sc">-</span><span class="dv">1</span>], <span class="cf">function</span>(x) <span class="fu">round</span>(x, <span class="dv">4</span>)))</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>parametros <span class="sc">%&gt;%</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">escape =</span> <span class="cn">FALSE</span>, <span class="at">align =</span> <span class="st">&#39;c&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(<span class="st">&quot;hover&quot;</span>, <span class="at">full_width =</span> <span class="cn">FALSE</span>, <span class="at">position =</span> <span class="st">&quot;center&quot;</span>, <span class="at">fixed_thead =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<table class=" lightable-classic lightable-hover" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Parameters
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+pasting_temp
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+setback
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+final_visc
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+breakdown
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+min_visc_afheat
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+peak_visc
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+Accuracy
+</td>
+<td style="text-align:center;">
+0.8789
+</td>
+<td style="text-align:center;">
+0.9106
+</td>
+<td style="text-align:center;">
+0.8972
+</td>
+<td style="text-align:center;">
+8.4900e-01
+</td>
+<td style="text-align:center;">
+0.8276
+</td>
+<td style="text-align:center;">
+0.8468
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+CVg
+</td>
+<td style="text-align:center;">
+1.2132
+</td>
+<td style="text-align:center;">
+16.5315
+</td>
+<td style="text-align:center;">
+9.8721
+</td>
+<td style="text-align:center;">
+6.1601e+00
+</td>
+<td style="text-align:center;">
+7.2323
+</td>
+<td style="text-align:center;">
+5.0555
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+CVr
+</td>
+<td style="text-align:center;">
+0.7077
+</td>
+<td style="text-align:center;">
+6.6075
+</td>
+<td style="text-align:center;">
+3.1372
+</td>
+<td style="text-align:center;">
+3.7244e+00
+</td>
+<td style="text-align:center;">
+3.8203
+</td>
+<td style="text-align:center;">
+2.8587
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+CV ratio
+</td>
+<td style="text-align:center;">
+1.7142
+</td>
+<td style="text-align:center;">
+2.5019
+</td>
+<td style="text-align:center;">
+3.1468
+</td>
+<td style="text-align:center;">
+1.6540e+00
+</td>
+<td style="text-align:center;">
+1.8931
+</td>
+<td style="text-align:center;">
+1.7685
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+GEIr2
+</td>
+<td style="text-align:center;">
+0.6493
+</td>
+<td style="text-align:center;">
+0.6049
+</td>
+<td style="text-align:center;">
+0.6594
+</td>
+<td style="text-align:center;">
+7.0760e-01
+</td>
+<td style="text-align:center;">
+0.7577
+</td>
+<td style="text-align:center;">
+0.7199
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+h2mg
+</td>
+<td style="text-align:center;">
+0.7724
+</td>
+<td style="text-align:center;">
+0.8291
+</td>
+<td style="text-align:center;">
+0.8049
+</td>
+<td style="text-align:center;">
+7.2070e-01
+</td>
+<td style="text-align:center;">
+0.6849
+</td>
+<td style="text-align:center;">
+0.7171
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Heritability
+</td>
+<td style="text-align:center;">
+0.2616
+</td>
+<td style="text-align:center;">
+0.3407
+</td>
+<td style="text-align:center;">
+0.3094
+</td>
+<td style="text-align:center;">
+2.1410e-01
+</td>
+<td style="text-align:center;">
+0.1894
+</td>
+<td style="text-align:center;">
+0.2123
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Phenotypic variance
+</td>
+<td style="text-align:center;">
+2.7576
+</td>
+<td style="text-align:center;">
+85726.0373
+</td>
+<td style="text-align:center;">
+223611.7869
+</td>
+<td style="text-align:center;">
+1.6395e+05
+</td>
+<td style="text-align:center;">
+75689.7118
+</td>
+<td style="text-align:center;">
+265655.1967
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+rge
+</td>
+<td style="text-align:center;">
+0.8794
+</td>
+<td style="text-align:center;">
+0.9174
+</td>
+<td style="text-align:center;">
+0.9548
+</td>
+<td style="text-align:center;">
+9.0040e-01
+</td>
+<td style="text-align:center;">
+0.9348
+</td>
+<td style="text-align:center;">
+0.9138
+</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(parametros, <span class="at">file =</span> <span class="st">&quot;output/parametros.csv&quot;</span>)</span></code></pre></div>
+<p>Os componetnes de variância são obtidos a partir da junção dos data
+frames contidos em BLUPS_join$vcomp usando a função merge. Os números
+nas colunas (exceto a primeira coluna) são arredondados para 4 casas
+decimais. O resultado é exibido como uma tabela formatada usando o
+pacote kableExtra.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>vcomp <span class="ot">&lt;-</span> <span class="fu">Reduce</span>(<span class="cf">function</span>(x, y) <span class="fu">merge</span>(x, y, <span class="at">all =</span> <span class="cn">TRUE</span>), BLUPS_join<span class="sc">$</span>vcomp)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>vcomp[,<span class="sc">-</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">lapply</span>(vcomp[,<span class="sc">-</span><span class="dv">1</span>], <span class="cf">function</span>(x) <span class="fu">round</span>(x, <span class="dv">4</span>)))</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>vcomp <span class="sc">%&gt;%</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">escape =</span> <span class="cn">FALSE</span>, <span class="at">align =</span> <span class="st">&#39;c&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(<span class="st">&quot;hover&quot;</span>, <span class="at">full_width =</span> <span class="cn">FALSE</span>, <span class="at">position =</span> <span class="st">&quot;center&quot;</span>, <span class="at">fixed_thead =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<table class=" lightable-classic lightable-hover" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+Group
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+pasting_temp
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+setback
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+final_visc
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+breakdown
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+min_visc_afheat
+</th>
+<th style="text-align:center;position: sticky; top:0; background-color: #FFFFFF;">
+peak_visc
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+GEN
+</td>
+<td style="text-align:center;">
+0.7215
+</td>
+<td style="text-align:center;">
+29208.375
+</td>
+<td style="text-align:center;">
+69185.648
+</td>
+<td style="text-align:center;">
+35108.15
+</td>
+<td style="text-align:center;">
+14336.28
+</td>
+<td style="text-align:center;">
+56391.28
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+GEN:ENV
+</td>
+<td style="text-align:center;">
+1.7906
+</td>
+<td style="text-align:center;">
+51851.604
+</td>
+<td style="text-align:center;">
+147439.465
+</td>
+<td style="text-align:center;">
+116008.28
+</td>
+<td style="text-align:center;">
+57353.29
+</td>
+<td style="text-align:center;">
+191232.99
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Residual
+</td>
+<td style="text-align:center;">
+0.2455
+</td>
+<td style="text-align:center;">
+4666.058
+</td>
+<td style="text-align:center;">
+6986.674
+</td>
+<td style="text-align:center;">
+12833.62
+</td>
+<td style="text-align:center;">
+4000.14
+</td>
+<td style="text-align:center;">
+18030.94
+</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(vcomp, <span class="at">file =</span> <span class="st">&quot;output/vcomp.csv&quot;</span>)</span></code></pre></div>
+</div>
+<div id="plotando-os-componentes-de-variância" class="section level3">
+<h3>Plotando os componentes de variância</h3>
+<p>Neste trecho de código, estamos plotando os componentes de variância.
+Primeiro, usamos a função pivot_longer para transformar os dados da
+matriz vcomp em um formato longo, onde cada variável de coluna é mapeada
+para uma única coluna. Em seguida, utilizamos a função ggplot para criar
+o gráfico de barras empilhadas. Definimos as variáveis estéticas x, y e
+fill, e personalizamos as etiquetas dos eixos, a legenda e o tema
+visual. Por fim, salvamos o gráfico em um arquivo chamado
+“varcomp.tiff”.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>varcomp <span class="ot">&lt;-</span> vcomp <span class="sc">%&gt;%</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(vcomp),</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">&quot;Traits&quot;</span>,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">&quot;vcov&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Traits =</span> <span class="fu">factor</span>(Traits, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Quebra&quot;</span>, <span class="st">&quot;Visc_final&quot;</span>, <span class="st">&quot;Visc_min&quot;</span>, <span class="st">&quot;Temp_emp&quot;</span>, <span class="st">&quot;Visc_max&quot;</span>, <span class="st">&quot;Tend_retro&quot;</span>)))</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>varcomp <span class="sc">%&gt;%</span>  </span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Traits, <span class="at">y =</span> vcov, <span class="at">fill =</span> Group, <span class="at">by =</span> Traits)) <span class="sc">+</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">&quot;fill&quot;</span>)<span class="sc">+</span> </span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Value&quot;</span>,</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">x=</span><span class="st">&quot;Traits&quot;</span>,</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">&quot;VarComp&quot;</span>)<span class="sc">+</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gdocs</span>()<span class="sc">+</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">15</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">size =</span> <span class="dv">10</span>,</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">angle =</span> <span class="dv">45</span>,</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">hjust =</span> <span class="dv">1</span>,</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">vjust =</span> <span class="dv">1</span></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>    )) </span></code></pre></div>
+<p><img src="figure/index.Rmd/unnamed-chunk-18-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;output/varcomp.tiff&quot;</span>, <span class="at">width =</span> <span class="dv">12</span>, <span class="at">height =</span> <span class="dv">8</span>)</span></code></pre></div>
+</div>
+<div id="salvando-os-blups-e-os-parametros" class="section level3">
+<h3>Salvando os BLUPs e os parametros</h3>
+<p>Neste bloco, estamos salvando os resultados dos valores genéticos
+melhorados preditos (BLUPs) e os parâmetros em arquivos separados.
+Utilizamos a função save para salvar os objetos BLUPS_join, parametros e
+vcomp em arquivos chamados “BLUPS.Rdata”, “parametros.Rdata” e
+“vcomp.Rdata”, respectivamente.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(BLUPS_join, <span class="at">file =</span> <span class="st">&quot;output/BLUPS.Rdata&quot;</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(parametros, <span class="at">file =</span> <span class="st">&quot;output/parametros.Rdata&quot;</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(vcomp, <span class="at">file =</span> <span class="st">&quot;output/vcomp.Rdata&quot;</span>)</span></code></pre></div>
+</div>
+<div id="correlações-de-pearson" class="section level3">
+<h3>Correlações de Pearson</h3>
+<p>Nesta parte do código, estamos calculando e visualizando as
+correlações de Pearson. Primeiro, realizamos algumas transformações nos
+dados, selecionando as colunas relevantes do dataframe BLUPS_join,
+pivotando os dados para que cada variável se torne uma coluna. Em
+seguida, calculamos a matriz de correlação de Pearson utilizando a
+função cor. Por fim, arredondamos a matriz de correlação e a exibimos na
+saída.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>phen <span class="ot">&lt;-</span> BLUPS_join <span class="sc">%&gt;%</span> </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">trait =</span> <span class="fu">factor</span>(trait, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Quebra&quot;</span>, <span class="st">&quot;Visc_final&quot;</span>, <span class="st">&quot;Visc_min&quot;</span>, <span class="st">&quot;Temp_emp&quot;</span>, <span class="st">&quot;Visc_max&quot;</span>, <span class="st">&quot;Tend_retro&quot;</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(trait, germplasmName, Predicted) <span class="sc">%&gt;%</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> trait, <span class="at">values_from =</span> Predicted) <span class="sc">%&gt;%</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">column_to_rownames</span>(<span class="at">var =</span> <span class="st">&quot;germplasmName&quot;</span>)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular a matriz de correlação de Pearson</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>corMat <span class="ot">&lt;-</span> <span class="fu">cor</span>(phen, <span class="at">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>)</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizar a matriz de correlação arredondada</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(corMat, <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>           Visc_max Visc_min  Quebra Visc_final Tend_retro Temp_emp
+Visc_max     1.0000   0.6367  0.8571     0.6485     0.5100  -0.3391
+Visc_min     0.6367   1.0000  0.1486     0.8552     0.5451  -0.0795
+Quebra       0.8571   0.1486  1.0000     0.2606     0.2904  -0.3816
+Visc_final   0.6485   0.8552  0.2606     1.0000     0.8957  -0.1492
+Tend_retro   0.5100   0.5451  0.2904     0.8957     1.0000  -0.1811
+Temp_emp    -0.3391  -0.0795 -0.3816    -0.1492    -0.1811   1.0000</code></pre>
+</div>
+<div id="correlograma" class="section level3">
+<h3>Correlograma</h3>
+<p>Neste trecho, estamos criando um correlograma para visualizar as
+correlações entre as variáveis. Primeiro, calculamos a matriz de
+correlação utilizando a função cor com o método “pearson”. Em seguida,
+salvamos a matriz de correlação em um arquivo chamado “Correlacao.txt”.
+Além disso, realizamos um teste de significância para as correlações
+utilizando a função cor.mtest. Por fim, plotamos o correlograma usando a
+função corrplot, personalizando vários parâmetros relacionados à
+aparência e à legenda do gráfico.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular a matriz de correlação</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>corr_mat <span class="ot">&lt;-</span> <span class="fu">cor</span>(phen, <span class="at">method =</span> <span class="st">&quot;pearson&quot;</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Salvar a matriz de correlação em um arquivo</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(corr_mat, <span class="st">&quot;output/Correlacao.txt&quot;</span>)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Realizar o teste de significância para as correlações</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>res1 <span class="ot">&lt;-</span> <span class="fu">cor.mtest</span>(phen, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotar o correlograma</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>  corr_mat,</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">p.mat =</span> res1<span class="sc">$</span>p,</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">&quot;upper&quot;</span>,</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">&quot;color&quot;</span>,</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">outline =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">addgrid.col =</span> <span class="st">&quot;darkgray&quot;</span>,</span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">addrect =</span> <span class="dv">4</span>,</span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">rect.col =</span> <span class="st">&quot;black&quot;</span>,</span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">rect.lwd =</span> <span class="dv">5</span>,</span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">cl.pos =</span> <span class="st">&quot;b&quot;</span>,</span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">tl.col =</span> <span class="st">&quot;indianred4&quot;</span>,</span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">tl.cex =</span> <span class="fl">1.1</span>,</span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">cl.cex =</span> <span class="dv">1</span>,</span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">addCoef.col =</span> <span class="st">&quot;black&quot;</span>,</span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">number.digits =</span> <span class="dv">2</span>,</span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">number.cex =</span> <span class="fl">0.8</span>,</span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">&quot;darkred&quot;</span>, <span class="st">&quot;white&quot;</span>, <span class="st">&quot;darkgreen&quot;</span>))(<span class="dv">100</span>)</span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><img src="figure/index.Rmd/unnamed-chunk-21-1.png" width="1152" style="display: block; margin: auto;" /></p>
+</div>
+<div id="dapc" class="section level3">
+<h3>DAPC</h3>
+<p>Neste trecho de código, estamos realizando a Análise de Componentes
+Principais Discrimitórios (DAPC). Utilizamos a função find.clusters para
+encontrar os clusters com base nos dados de fenótipo (phen). O parâmetro
+max.n define o número máximo de clusters a serem testados, n.pca
+especifica o número de componentes principais a serem mantidos na
+análise e scale indica se os dados devem ser padronizados. Em seguida,
+salvamos os clusters encontrados em um arquivo chamado
+“Clusters.txt”.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Encontrar os clusters usando DAPC</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>grp <span class="ot">&lt;-</span> <span class="fu">find.clusters</span>(phen, <span class="at">max.n =</span> <span class="dv">50</span>, <span class="at">n.pca =</span> <span class="dv">200</span>, <span class="at">scale =</span> <span class="cn">TRUE</span>, <span class="at">choose =</span> <span class="cn">TRUE</span>, <span class="at">n.clust =</span> <span class="dv">5</span>)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Salvar os grupos a priori em um arquivo</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>cluster <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">cluster =</span> grp<span class="sc">$</span>grp)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>cluster<span class="sc">$</span>germplasmName <span class="ot">&lt;-</span> <span class="fu">rownames</span>(cluster)</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Salvar os clusters em um arquivo</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(cluster, <span class="st">&#39;output/Clusters.txt&#39;</span>, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>)</span></code></pre></div>
+<div id="descrever-os-clusters-usando-dapc" class="section level4">
+<h4>Descrever os clusters usando DAPC</h4>
+<p>Neste bloco, estamos descrevendo os clusters encontrados utilizando
+DAPC. A função dapc é aplicada aos dados de fenótipo (phen) e aos
+clusters encontrados (grp$grp). Em seguida, usamos a função scatter para
+plotar o gráfico de dispersão DAPC. Os parâmetros posi.da, bg e pch são
+utilizados para personalizar a aparência do gráfico. Por fim, salvamos o
+gráfico em um arquivo “cluster.tiff”.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Descrever os clusters usando DAPC</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>dapc1 <span class="ot">&lt;-</span> <span class="fu">dapc</span>(phen, grp<span class="sc">$</span>grp, <span class="at">n.pca=</span><span class="dv">3</span>, <span class="at">n.da=</span><span class="dv">3</span>)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotar o gráfico de dispersão DAPC</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter</span>(dapc1, <span class="at">posi.da =</span> <span class="st">&quot;bottomleft&quot;</span>, <span class="at">bg =</span> <span class="st">&quot;white&quot;</span>, <span class="at">pch =</span> <span class="dv">17</span><span class="sc">:</span><span class="dv">22</span>)</span></code></pre></div>
+<p><img src="figure/index.Rmd/unnamed-chunk-23-1.png" width="1152" style="display: block; margin: auto;" /></p>
+</div>
+<div id="plotar-gráficos-de-dispersão-pca" class="section level4">
+<h4>Plotar gráficos de dispersão PCA</h4>
+<p>Nesta parte do código, estamos plotando gráficos de dispersão PCA
+(Análise de Componentes Principais) para as combinações de componentes
+principais 1 e 2, 1 e 3, e 2 e 3. Utilizamos a função scatter para criar
+os gráficos de dispersão, definindo os componentes principais desejados
+e personalizando os parâmetros label.inds, posi.da, bg e pch.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>PCA1x2 <span class="ot">&lt;-</span> <span class="fu">scatter</span>(dapc1, <span class="dv">1</span>, <span class="dv">2</span>, <span class="at">label.inds =</span> <span class="fu">list</span>(<span class="at">air =</span> <span class="fl">0.5</span>, <span class="at">pch =</span> <span class="cn">NA</span>), <span class="at">posi.da =</span> <span class="st">&quot;topright&quot;</span>)</span></code></pre></div>
+<p><img src="figure/index.Rmd/unnamed-chunk-24-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>PCA1x3 <span class="ot">&lt;-</span> <span class="fu">scatter</span>(dapc1, <span class="dv">1</span>, <span class="dv">3</span>, <span class="at">label.inds =</span> <span class="fu">list</span>(<span class="at">air =</span> <span class="fl">0.5</span>, <span class="at">pch =</span> <span class="cn">NA</span>), <span class="at">posi.da =</span> <span class="st">&quot;bottomright&quot;</span>)</span></code></pre></div>
+<p><img src="figure/index.Rmd/unnamed-chunk-24-2.png" width="1152" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>PCA2x3 <span class="ot">&lt;-</span> <span class="fu">scatter</span>(dapc1, <span class="dv">2</span>, <span class="dv">3</span>, <span class="at">label.inds =</span> <span class="fu">list</span>(<span class="at">air =</span> <span class="fl">0.5</span>, <span class="at">pch =</span> <span class="cn">NA</span>), <span class="at">posi.da =</span> <span class="st">&quot;bottomright&quot;</span>)</span></code></pre></div>
+<p><img src="figure/index.Rmd/unnamed-chunk-24-3.png" width="1152" style="display: block; margin: auto;" /></p>
+</div>
+<div id="interpretação-das-associações-de-grupos"
+class="section level4">
+<h4>Interpretação das associações de grupos</h4>
+<p>Aqui, estamos obtendo as probabilidades a posteriori dos grupos
+utilizando a variável dapc1$posterior, que contém as informações sobre a
+atribuição de cada indivíduo a um determinado grupo. Em seguida,
+salvamos as probabilidades a posteriori em um arquivo chamado
+“Prob_a_posteriori.txt”.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Obter as probabilidades a posteriori</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>probpost <span class="ot">&lt;-</span> dapc1<span class="sc">$</span>posterior</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Salvar as probabilidades a posteriori em um arquivo</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(probpost, <span class="st">&#39;output/Prob_a_posteriori.txt&#39;</span>, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>)</span></code></pre></div>
+</div>
+<div id="plotar-os-gráficos-de-atribuição-de-grupos"
+class="section level4">
+<h4>Plotar os gráficos de atribuição de grupos</h4>
+<p>Neste trecho, estamos plotando os gráficos de atribuição de grupos
+com base nos resultados da DAPC. Utilizamos a função assignplot para
+criar os gráficos e definimos o parâmetro subset para especificar o
+número de indivíduos a serem exibidos nos gráficos. Por fim, salvamos os
+grupos a priori em um arquivo chamado “Cluster_a_priori.txt”.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotar os gráficos de atribuição de grupos</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">assignplot</span>(dapc1, <span class="at">subset =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">60</span>)</span></code></pre></div>
+<p><img src="figure/index.Rmd/unnamed-chunk-26-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(cluster, <span class="st">&#39;output/Cluster_a_priori.txt&#39;</span>, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>)</span></code></pre></div>
+</div>
+</div>
+<div id="circular-heatmap" class="section level3">
+<h3>Circular heatmap</h3>
+<p>Nesta parte do código, estamos criando uma circular heatmap.
+Primeiro, definimos as cores para a heatmap usando a função colorRamp2.
+Em seguida, definimos uma função padronizar para padronizar as colunas
+dos dados de fenótipo. Depois, aplicamos a função de padronização a
+todas as colunas do dataframe phen utilizando a função lapply.</p>
+<p>Então, utilizamos a função circos.clear para limpar a plotagem
+anterior e configuramos alguns parâmetros com a função circos.par. Em
+seguida, criamos a heatmap circular com a função circos.heatmap,
+fornecendo os dados padronizados, a estrutura de divisão dos clusters,
+as cores, e personalizando os parâmetros `dend.side</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir as cores para a heatmap</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>col_fun1 <span class="ot">=</span> <span class="fu">colorRamp2</span>(</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>, <span class="dv">60</span>, <span class="dv">70</span>, <span class="dv">80</span>, <span class="dv">90</span>, <span class="dv">100</span>),</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;blue4&quot;</span>,</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;lightblue&quot;</span>,</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;lightgreen&quot;</span>,</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;green&quot;</span>,</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;darkgreen&quot;</span>,</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;lightyellow&quot;</span>,</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;yellow&quot;</span>,</span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;orange&quot;</span>,</span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;orangered&quot;</span>,</span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;red&quot;</span>,</span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;red4&quot;</span></span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular o número de clusters</span></span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a>split <span class="ot">=</span> <span class="fu">structure</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">names =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Função para padronizar as colunas</span></span>
+<span id="cb39-23"><a href="#cb39-23" aria-hidden="true" tabindex="-1"></a>padronizar <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb39-24"><a href="#cb39-24" aria-hidden="true" tabindex="-1"></a>  min_val <span class="ot">&lt;-</span> <span class="fu">min</span>(x)</span>
+<span id="cb39-25"><a href="#cb39-25" aria-hidden="true" tabindex="-1"></a>  max_val <span class="ot">&lt;-</span> <span class="fu">max</span>(x)</span>
+<span id="cb39-26"><a href="#cb39-26" aria-hidden="true" tabindex="-1"></a>  (x <span class="sc">-</span> min_val) <span class="sc">/</span> (max_val <span class="sc">-</span> min_val) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb39-27"><a href="#cb39-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb39-28"><a href="#cb39-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-29"><a href="#cb39-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Aplicar a função de padronização em todas as colunas do dataframe</span></span>
+<span id="cb39-30"><a href="#cb39-30" aria-hidden="true" tabindex="-1"></a>phen_padronizado <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">lapply</span>(phen, padronizar))</span>
+<span id="cb39-31"><a href="#cb39-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-32"><a href="#cb39-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotar a circular heatmap</span></span>
+<span id="cb39-33"><a href="#cb39-33" aria-hidden="true" tabindex="-1"></a><span class="fu">circos.clear</span>()</span>
+<span id="cb39-34"><a href="#cb39-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-35"><a href="#cb39-35" aria-hidden="true" tabindex="-1"></a><span class="fu">circos.par</span>(<span class="at">gap.after =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">10</span>))</span>
+<span id="cb39-36"><a href="#cb39-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-37"><a href="#cb39-37" aria-hidden="true" tabindex="-1"></a><span class="fu">circos.heatmap</span>(</span>
+<span id="cb39-38"><a href="#cb39-38" aria-hidden="true" tabindex="-1"></a>  phen_padronizado,</span>
+<span id="cb39-39"><a href="#cb39-39" aria-hidden="true" tabindex="-1"></a>  <span class="at">split =</span> split,</span>
+<span id="cb39-40"><a href="#cb39-40" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> col_fun1,</span>
+<span id="cb39-41"><a href="#cb39-41" aria-hidden="true" tabindex="-1"></a>  <span class="at">dend.side =</span> <span class="st">&quot;inside&quot;</span>,</span>
+<span id="cb39-42"><a href="#cb39-42" aria-hidden="true" tabindex="-1"></a>  <span class="at">track.height =</span> <span class="fl">0.4</span>,</span>
+<span id="cb39-43"><a href="#cb39-43" aria-hidden="true" tabindex="-1"></a>  <span class="at">dend.callback =</span> <span class="cf">function</span>(dend, m, si) {</span>
+<span id="cb39-44"><a href="#cb39-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">color_branches</span>(dend, <span class="at">k =</span> <span class="dv">1</span>, <span class="at">col =</span> split[si])</span>
+<span id="cb39-45"><a href="#cb39-45" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb39-46"><a href="#cb39-46" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb39-47"><a href="#cb39-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-48"><a href="#cb39-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Adicionar rótulos aos clusters</span></span>
+<span id="cb39-49"><a href="#cb39-49" aria-hidden="true" tabindex="-1"></a><span class="fu">circos.track</span>(</span>
+<span id="cb39-50"><a href="#cb39-50" aria-hidden="true" tabindex="-1"></a>  <span class="at">track.index =</span> <span class="fu">get.current.track.index</span>(),</span>
+<span id="cb39-51"><a href="#cb39-51" aria-hidden="true" tabindex="-1"></a>  <span class="at">panel.fun =</span> <span class="cf">function</span>(x, y) {</span>
+<span id="cb39-52"><a href="#cb39-52" aria-hidden="true" tabindex="-1"></a>    <span class="fu">circos.text</span>(</span>
+<span id="cb39-53"><a href="#cb39-53" aria-hidden="true" tabindex="-1"></a>      CELL_META<span class="sc">$</span>xcenter,</span>
+<span id="cb39-54"><a href="#cb39-54" aria-hidden="true" tabindex="-1"></a>      CELL_META<span class="sc">$</span>cell.ylim[<span class="dv">2</span>] <span class="sc">+</span> <span class="fu">convert_y</span>(<span class="dv">2</span>, <span class="st">&quot;mm&quot;</span>),</span>
+<span id="cb39-55"><a href="#cb39-55" aria-hidden="true" tabindex="-1"></a>      <span class="fu">paste0</span>(CELL_META<span class="sc">$</span>sector.index),</span>
+<span id="cb39-56"><a href="#cb39-56" aria-hidden="true" tabindex="-1"></a>      <span class="at">facing =</span> <span class="st">&quot;bending.inside&quot;</span>,</span>
+<span id="cb39-57"><a href="#cb39-57" aria-hidden="true" tabindex="-1"></a>      <span class="at">cex =</span> <span class="fl">0.8</span>,</span>
+<span id="cb39-58"><a href="#cb39-58" aria-hidden="true" tabindex="-1"></a>      <span class="at">adj =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">4.5</span>),</span>
+<span id="cb39-59"><a href="#cb39-59" aria-hidden="true" tabindex="-1"></a>      <span class="at">niceFacing =</span> <span class="cn">TRUE</span></span>
+<span id="cb39-60"><a href="#cb39-60" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb39-61"><a href="#cb39-61" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb39-62"><a href="#cb39-62" aria-hidden="true" tabindex="-1"></a>  <span class="at">bg.border =</span> <span class="cn">NA</span></span>
+<span id="cb39-63"><a href="#cb39-63" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb39-64"><a href="#cb39-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-65"><a href="#cb39-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Adicionar legenda</span></span>
+<span id="cb39-66"><a href="#cb39-66" aria-hidden="true" tabindex="-1"></a>lgd <span class="ot">=</span> <span class="fu">Legend</span>(<span class="at">title =</span> <span class="st">&quot;Range&quot;</span>, <span class="at">col_fun =</span> col_fun1)</span>
+<span id="cb39-67"><a href="#cb39-67" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.draw</span>(lgd)</span></code></pre></div>
+<p><img src="figure/index.Rmd/unnamed-chunk-27-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">circos.clear</span>()</span></code></pre></div>
+</div>
+</div>
+<div id="analises-comparativa-dos-cluster" class="section level2">
+<h2>Analises comparativa dos cluster</h2>
+<p>Este chunk realiza o carregamento dos dados e faz um join com a
+variável “cluster”. O resultado é armazenado no objeto “BLUPS_join” e o
+arquivo é salvo como “BLUPS.RData”.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Carrega o objeto BLUPS_join e faz um join com a variável cluster</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>BLUPS_join <span class="ot">&lt;-</span> BLUPS_join <span class="sc">%&gt;%</span> </span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(cluster)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Salva o objeto BLUPS_join em um arquivo RData</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(BLUPS_join, <span class="at">file =</span> <span class="st">&quot;output/BLUPS.RData&quot;</span>)</span></code></pre></div>
+<div id="cálculo-das-médias" class="section level3">
+<h3>Cálculo das médias</h3>
+<p>São calculadas as médias dos valores das variáveis numéricas para
+cada combinação de “germplasmName” e “cluster”. Os resultados são
+armazenados no objeto “mean_germ_cluster” e são salvos em um arquivo de
+texto.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcula as médias dos valores de cada variável numérica para cada combinação de germplasmName e cluster</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>mean_germ_cluster <span class="ot">&lt;-</span> BLUPS_join <span class="sc">%&gt;%</span> </span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">trait =</span> <span class="fu">factor</span>(trait, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Quebra&quot;</span>, <span class="st">&quot;Visc_final&quot;</span>, <span class="st">&quot;Visc_min&quot;</span>, <span class="st">&quot;Temp_emp&quot;</span>, <span class="st">&quot;Visc_max&quot;</span>, <span class="st">&quot;Tend_retro&quot;</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> trait, <span class="at">values_from =</span> Predicted) <span class="sc">%&gt;%</span> </span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(germplasmName, cluster, Visc_max<span class="sc">:</span>Temp_emp) <span class="sc">%&gt;%</span> </span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(germplasmName, cluster) <span class="sc">%&gt;%</span> </span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise_if</span>(is.numeric, mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Salva as médias em um arquivo de texto</span></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(mean_germ_cluster, <span class="st">&quot;output/mean_germ_cluster.txt&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Converte as variáveis cluster e trait para fatores e remove níveis não utilizados</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>BLUPS_join <span class="ot">&lt;-</span> BLUPS_join <span class="sc">%&gt;%</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cluster =</span> <span class="fu">as.factor</span>(cluster),</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">trait =</span> <span class="fu">factor</span>(trait)) <span class="sc">%&gt;%</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">droplevels</span>()</span></code></pre></div>
+</div>
+<div id="análise-estatística-e-criação-de-gráficos"
+class="section level3">
+<h3>Análise estatística e criação de gráficos</h3>
+<p>são realizados testes estatísticos e a criação de gráficos para cada
+nível da variável “trait”. Os resultados dos testes são armazenados nos
+objetos “stat.test” e “stat.test1”. Em seguida, os gráficos são criados
+e adicionadas as significâncias usando a função “geom_signif” do pacote
+“ggsignif”. Os gráficos criados anteriormente são combinados em uma
+única grade utilizando a função “combine_plots”. O resultado é uma grade
+com os gráficos para cada nível da variável “trait”.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cria uma lista vazia para armazenar os gráficos de cada trait</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop sobre os níveis da variável trait</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">levels</span>(<span class="fu">as.factor</span>(BLUPS_join<span class="sc">$</span>trait))){</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>  stat.test1 <span class="ot">&lt;-</span> BLUPS_join <span class="sc">%&gt;%</span></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(trait <span class="sc">==</span> i) <span class="sc">%&gt;%</span></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">t_test</span>(Predicted <span class="sc">~</span> cluster) <span class="sc">%&gt;%</span> </span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_xy_position</span>()</span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>  name <span class="ot">&lt;-</span> names[[i]]</span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Cria o gráfico para cada trait, adicionando as significâncias</span></span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>  p[[i]] <span class="ot">&lt;-</span> <span class="fu">ggbetweenstats</span>(</span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> BLUPS_join <span class="sc">%&gt;%</span> </span>
+<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(trait <span class="sc">==</span> i),</span>
+<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> cluster,</span>
+<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> Predicted,</span>
+<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">results.subtitle =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">pairwise.comparisons =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> name,</span>
+<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">&quot;Cluster&quot;</span>,</span>
+<span id="cb44-24"><a href="#cb44-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
+<span id="cb44-25"><a href="#cb44-25" aria-hidden="true" tabindex="-1"></a>    ggsignif<span class="sc">::</span><span class="fu">geom_signif</span>(</span>
+<span id="cb44-26"><a href="#cb44-26" aria-hidden="true" tabindex="-1"></a>      <span class="at">comparisons =</span> stat.test1<span class="sc">$</span>groups,</span>
+<span id="cb44-27"><a href="#cb44-27" aria-hidden="true" tabindex="-1"></a>      <span class="at">map_signif_level =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb44-28"><a href="#cb44-28" aria-hidden="true" tabindex="-1"></a>      <span class="at">annotations =</span> stat.test1<span class="sc">$</span>p.adj.signif,</span>
+<span id="cb44-29"><a href="#cb44-29" aria-hidden="true" tabindex="-1"></a>      <span class="at">y_position =</span> stat.test1<span class="sc">$</span>y.position,</span>
+<span id="cb44-30"><a href="#cb44-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">test =</span> <span class="cn">NULL</span></span>
+<span id="cb44-31"><a href="#cb44-31" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb44-32"><a href="#cb44-32" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb44-33"><a href="#cb44-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-34"><a href="#cb44-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Combina os gráficos em uma única grade</span></span>
+<span id="cb44-35"><a href="#cb44-35" aria-hidden="true" tabindex="-1"></a><span class="fu">combine_plots</span>(</span>
+<span id="cb44-36"><a href="#cb44-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">plotlist =</span> p,</span>
+<span id="cb44-37"><a href="#cb44-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">plotgrid.args =</span> <span class="fu">list</span>(<span class="at">nrow =</span> <span class="dv">3</span>)</span>
+<span id="cb44-38"><a href="#cb44-38" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p><img src="figure/index.Rmd/unnamed-chunk-31-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>o gráfico combinado é salvo em um arquivo TIFF com o nome
+“boxplot_violine.tiff” e dimensões personalizadas.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Salva o gráfico em um arquivo TIFF</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">&quot;output/boxplot_violine.tiff&quot;</span>, <span class="at">width =</span> <span class="dv">16</span>, <span class="at">height =</span> <span class="dv">24</span>)</span></code></pre></div>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div>
+<pre><code>R version 4.1.0 (2021-05-18)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Debian GNU/Linux 10 (buster)
+
+Matrix products: default
+BLAS:   /usr/local/lib/R/lib/libRblas.so
+LAPACK: /usr/local/lib/R/lib/libRlapack.so
+
+locale:
+ [1] LC_CTYPE=pt_BR.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=pt_BR.UTF-8        LC_COLLATE=pt_BR.UTF-8    
+ [5] LC_MONETARY=pt_BR.UTF-8    LC_MESSAGES=pt_BR.UTF-8   
+ [7] LC_PAPER=pt_BR.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=pt_BR.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+ [1] parallel  grid      compiler  stats     graphics  grDevices utils    
+ [8] datasets  methods   base     
+
+other attached packages:
+ [1] rstatix_0.7.2         ggstatsplot_0.11.1    PMCMRplus_1.9.6      
+ [4] GGally_2.1.2          ggthemes_4.2.4        doParallel_1.0.17    
+ [7] iterators_1.0.14      foreach_1.5.2         dendextend_1.17.1    
+[10] circlize_0.4.15       ComplexHeatmap_2.10.0 scatterplot3d_0.3-44 
+[13] gplots_3.1.3          corrplot_0.92         RColorBrewer_1.1-3   
+[16] adegenet_2.1.10       ade4_1.7-22           factoextra_1.0.7     
+[19] metan_1.18.0          kableExtra_1.3.4      DataExplorer_0.8.2   
+[22] lubridate_1.9.2       forcats_1.0.0         stringr_1.5.0        
+[25] dplyr_1.1.2           purrr_1.0.1           readr_2.1.4          
+[28] tidyr_1.3.0           tibble_3.2.1          ggplot2_3.4.2        
+[31] tidyverse_2.0.0      
+
+loaded via a namespace (and not attached):
+  [1] utf8_1.2.3             tidyselect_1.2.0       lme4_1.1-33           
+  [4] htmlwidgets_1.6.2      gmp_0.7-1              munsell_0.5.0         
+  [7] effectsize_0.8.3       ragg_1.2.5             codetools_0.2-18      
+ [10] withr_2.5.0            colorspace_2.1-0       highr_0.10            
+ [13] knitr_1.43             rstudioapi_0.14        stats4_4.1.0          
+ [16] ggsignif_0.6.4         labeling_0.4.2         emmeans_1.8.6         
+ [19] git2r_0.32.0           polyclip_1.10-4        farver_2.1.1          
+ [22] datawizard_0.7.1       rprojroot_2.0.3        coda_0.19-4           
+ [25] vctrs_0.6.2            generics_0.1.3         xfun_0.39             
+ [28] timechange_0.2.0       BWStest_0.2.2          R6_2.5.1              
+ [31] clue_0.3-64            bitops_1.0-7           cachem_1.0.8          
+ [34] reshape_0.8.9          promises_1.2.0.1       networkD3_0.4         
+ [37] scales_1.2.1           gtable_0.3.3           multcompView_0.1-9    
+ [40] workflowr_1.7.0        rlang_1.1.1            zeallot_0.1.0         
+ [43] systemfonts_1.0.4      GlobalOptions_0.1.2    splines_4.1.0         
+ [46] prismatic_1.1.1        broom_1.0.4            yaml_2.3.7            
+ [49] reshape2_1.4.4         abind_1.4-5            backports_1.4.1       
+ [52] httpuv_1.6.11          tools_4.1.0            ellipsis_0.3.2        
+ [55] jquerylib_0.1.4        BiocGenerics_0.40.0    Rcpp_1.0.10           
+ [58] plyr_1.8.8             GetoptLong_1.0.5       viridis_0.6.3         
+ [61] correlation_0.8.4      S4Vectors_0.32.4       ggrepel_0.9.3         
+ [64] cluster_2.1.2          fs_1.6.2               magrittr_2.0.3        
+ [67] data.table_1.14.8      lmerTest_3.1-3         mvtnorm_1.1-3         
+ [70] whisker_0.4.1          matrixStats_1.0.0      hms_1.1.3             
+ [73] patchwork_1.1.2        mime_0.12              evaluate_0.21         
+ [76] xtable_1.8-4           readxl_1.4.2           IRanges_2.28.0        
+ [79] gridExtra_2.3          shape_1.4.6            KernSmooth_2.23-20    
+ [82] crayon_1.5.2           minqa_1.2.5            htmltools_0.5.5       
+ [85] mgcv_1.8-35            later_1.3.1            tzdb_0.4.0            
+ [88] SuppDists_1.1-9.7      kSamples_1.2-9         tweenr_2.0.2          
+ [91] MASS_7.3-54            boot_1.3-28            Matrix_1.5-4.1        
+ [94] car_3.1-2              permute_0.9-7          cli_3.6.1             
+ [97] insight_0.19.2         igraph_1.4.3           pkgconfig_2.0.3       
+[100] statsExpressions_1.5.1 numDeriv_2016.8-1.1    xml2_1.3.4            
+[103] paletteer_1.5.0        svglite_2.1.1          bslib_0.4.2           
+[106] webshot_0.5.4          estimability_1.4.1     rvest_1.0.3           
+[109] snakecase_0.11.0       digest_0.6.31          parameters_0.21.1     
+[112] janitor_2.2.0          vegan_2.6-4            cellranger_1.1.0      
+[115] rmarkdown_2.22         shiny_1.7.4            gtools_3.9.4          
+[118] rjson_0.2.21           nloptr_2.0.3           lifecycle_1.0.3       
+[121] nlme_3.1-152           jsonlite_1.8.4         carData_3.0-5         
+[124] seqinr_4.2-30          viridisLite_0.4.2      fansi_1.0.4           
+[127] pillar_1.9.0           lattice_0.20-44        fastmap_1.1.1         
+[130] httr_1.4.6             glue_1.6.2             bayestestR_0.13.1     
+[133] png_0.1-8              ggforce_0.4.1          stringi_1.7.12        
+[136] sass_0.4.6             rematch2_2.1.2         textshaping_0.3.6     
+[139] caTools_1.18.2         memoise_2.0.1          mathjaxr_1.6-0        
+[142] Rmpfr_0.9-2            ape_5.7-1             </code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p>Weverton Gomes da Costa, Pós-Doutorando, Embrapa
+Mandioca e Fruticultura, <a href="mailto:wevertonufv@gmail.com"
+class="email">wevertonufv@gmail.com</a><a href="#fnref1"
+class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
