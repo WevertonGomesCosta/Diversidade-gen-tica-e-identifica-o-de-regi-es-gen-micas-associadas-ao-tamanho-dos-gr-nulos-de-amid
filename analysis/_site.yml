@@ -3,8 +3,10 @@ output_dir: ../docs
 navbar:
   title: "Diversidade genética e identificação de regiões genômicas associadas ao tamanho dos grânulos de amido em mandioca"
   left:
-  - text: Home
-    href: index.html
+  - text: Capítulo 1
+    href: cap1.html
+  - text: Capítulo 2
+    href: cap2.html
   - text: About
     href: about.html
   - text: License
