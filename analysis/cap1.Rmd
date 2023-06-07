@@ -11,7 +11,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r setup, include=F} 
+```{r setup, include=F}
 knitr::opts_chunk$set(
   echo = T,
   warning = F,
@@ -41,6 +41,8 @@ library(reshape2)        # Ferramentas para transformação de dados em formato 
 library(metan)           # Meta-análise
 library(factoextra)      # Ferramentas para análise de fatores e agrupamentos
 library(rstatix)         # Extensões para análise estatística com ênfase em visualizações gráficas interativas
+library(cvTools)
+library(adegenet)
 
 # Pacotes para visualização de dados
 library(RColorBrewer)    # Esquemas de cores personalizados
@@ -66,7 +68,6 @@ library(rstatix)         # Extensões para análise estatística com ênfase em 
 library(pals)            # Paletas de cores personalizadas
 library(reshape2)        # Ferramentas para transformação de dados 
 ```
-
 
 ## Análise Descritiva
 
@@ -132,10 +133,9 @@ names2 = c(
 )
 ```
 
-
 ### Contagem de genótipos
 
-Nesta etapa, é realizada a contagem de genótipos que foram avaliados para cada ano. 
+Nesta etapa, é realizada a contagem de genótipos que foram avaliados para cada ano.
 
 ```{r}
 # Contagem de genótipos
@@ -291,7 +291,6 @@ ge_details(dados, ano, amostras, resp = everything()) %>%
 
 Observamos que a variável setback apresenta coeficiente de variação (CV) alto, indicando uma maior variabilidade e possíveis valores discrepantes em alguns anos. Além disso o clone BGM-0895 no ano de 2017 apresentou menores valores para várias cracterísticas vamos eliminá-lo e verificar novamente os detalhes dos dados.
 
-
 ```{r}
 dados <- dados %>% 
   filter(amostras != "BGM-0895") %>% 
@@ -308,7 +307,6 @@ ge_details(dados, ano, amostras, resp = everything()) %>%
     fixed_thead = TRUE
   )
 ```
-
 
 Também realizamos uma inspeção visual dos dados, removendo as colunas referentes às amostras e aos anos. Utilizamos a função `inspect` para gerar uma visualização dos dados em forma de tabela, com a opção de exibir gráficos para uma melhor compreensão. Os resultados são apresentados em uma tabela formatada.
 
@@ -338,6 +336,7 @@ plot_histogram(dados %>%
                  select(amostras, ano, all_of(names(names1))),
                ggtheme = theme_gdocs())
 ```
+
 Ao examinar os histogramas, identificamos que as variáveis aparentemente seguem uma distribuição normal. Portanto, podemos prosseguir com a análise de modelos mistos.
 
 ## Modelos Mistos
@@ -543,7 +542,7 @@ ggsave("output/density_BLUPS2.tiff",
        height = 8)
 ```
 
-Os parâmetros são obtidos a partir da junção dos data frames contidos em BLUPS_join$parameters usando a função merge. Os números nas colunas (exceto a primeira coluna) são arredondados para 4 casas decimais. O resultado é exibido como uma tabela formatada usando o pacote kableExtra.
+Os parâmetros são obtidos a partir da junção dos data frames contidos em BLUPS_join\$parameters usando a função merge. Os números nas colunas (exceto a primeira coluna) são arredondados para 4 casas decimais. O resultado é exibido como uma tabela formatada usando o pacote kableExtra.
 
 ```{r}
 parametros <- Reduce(function(x, y) merge(x, y, all = TRUE), BLUPS_join$parameters)
@@ -556,7 +555,7 @@ parametros %>%
 write.table(parametros, file = "output/parametros2.csv")
 ```
 
-Os componetnes de variância são obtidos a partir da junção dos data frames contidos em BLUPS_join$vcomp usando a função merge. Os números nas colunas (exceto a primeira coluna) são arredondados para 4 casas decimais. O resultado é exibido como uma tabela formatada usando o pacote kableExtra.
+Os componetnes de variância são obtidos a partir da junção dos data frames contidos em BLUPS_join\$vcomp usando a função merge. Os números nas colunas (exceto a primeira coluna) são arredondados para 4 casas decimais. O resultado é exibido como uma tabela formatada usando o pacote kableExtra.
 
 ```{r}
 vcomp <- Reduce(function(x, y) merge(x, y, all = TRUE), BLUPS_join$vcomp)
@@ -622,18 +621,6 @@ varcomp %>%
     )) 
 
 ggsave("output/varcomp2.tiff", width = 12, height = 8)
-```
-
-### Salvando os BLUPs e os parametros
-
-Neste bloco, estamos salvando os resultados dos valores genéticos melhorados preditos (BLUPs) e os parâmetros em arquivos separados. Utilizamos a função save para salvar os objetos BLUPS_join, parametros e vcomp em arquivos chamados "BLUPS.Rdata", "parametros.Rdata" e "vcomp.Rdata", respectivamente.
-
-```{r}
-save(BLUPS_join, file = "output/BLUPS2.Rdata")
-
-save(parametros, file = "output/parametros2.Rdata")
-
-save(vcomp, file = "output/vcomp2.Rdata")
 ```
 
 ### Correlações de Pearson
@@ -737,7 +724,7 @@ write.table(cluster, 'output/Clusters2.txt', sep = " ")
 
 #### Descrever os clusters usando DAPC
 
-Neste bloco, estamos descrevendo os clusters encontrados utilizando DAPC. A função dapc é aplicada aos dados de fenótipo (phen) e aos clusters encontrados (grp$grp). Em seguida, usamos a função scatter para plotar o gráfico de dispersão DAPC. Os parâmetros posi.da, bg e pch são utilizados para personalizar a aparência do gráfico. Por fim, salvamos o gráfico em um arquivo "cluster.tiff".
+Neste bloco, estamos descrevendo os clusters encontrados utilizando DAPC. A função dapc é aplicada aos dados de fenótipo (phen) e aos clusters encontrados (grp\$grp). Em seguida, usamos a função scatter para plotar o gráfico de dispersão DAPC. Os parâmetros posi.da, bg e pch são utilizados para personalizar a aparência do gráfico. Por fim, salvamos o gráfico em um arquivo "cluster.tiff".
 
 ```{r}
 # Descrever os clusters usando DAPC
@@ -761,7 +748,7 @@ PCA2x3 <- scatter(dapc1, 2, 3, label.inds = list(air = 0.5, pch = NA), posi.da =
 
 #### Interpretação das associações de grupos
 
-Aqui, estamos obtendo as probabilidades a posteriori dos grupos utilizando a variável dapc1$posterior, que contém as informações sobre a atribuição de cada indivíduo a um determinado grupo. Em seguida, salvamos as probabilidades a posteriori em um arquivo chamado "Prob_a_posteriori.txt".
+Aqui, estamos obtendo as probabilidades a posteriori dos grupos utilizando a variável dapc1\$posterior, que contém as informações sobre a atribuição de cada indivíduo a um determinado grupo. Em seguida, salvamos as probabilidades a posteriori em um arquivo chamado "Prob_a\_posteriori.txt".
 
 ```{r}
 # Obter as probabilidades a posteriori
@@ -773,7 +760,7 @@ write.table(probpost, 'output/Prob_a_posteriori2.txt', sep = " ")
 
 #### Plotar os gráficos de atribuição de grupos
 
-Neste trecho, estamos plotando os gráficos de atribuição de grupos com base nos resultados da DAPC. Utilizamos a função assignplot para criar os gráficos e definimos o parâmetro subset para especificar o número de indivíduos a serem exibidos nos gráficos. Por fim, salvamos os grupos a priori em um arquivo chamado "Cluster_a_priori.txt".
+Neste trecho, estamos plotando os gráficos de atribuição de grupos com base nos resultados da DAPC. Utilizamos a função assignplot para criar os gráficos e definimos o parâmetro subset para especificar o número de indivíduos a serem exibidos nos gráficos. Por fim, salvamos os grupos a priori em um arquivo chamado "Cluster_a\_priori.txt".
 
 ```{r}
 # Plotar os gráficos de atribuição de grupos
@@ -786,7 +773,7 @@ write.table(cluster, 'output/Cluster_a_priori2.txt', sep = " ")
 
 Nesta parte do código, estamos criando uma circular heatmap. Primeiro, definimos as cores para a heatmap usando a função colorRamp2. Em seguida, definimos uma função padronizar para padronizar as colunas dos dados de fenótipo. Depois, aplicamos a função de padronização a todas as colunas do dataframe phen utilizando a função lapply.
 
-Então, utilizamos a função circos.clear para limpar a plotagem anterior e configuramos alguns parâmetros com a função circos.par. Em seguida, criamos a heatmap circular com a função circos.heatmap, fornecendo os dados padronizados, a estrutura de divisão dos clusters, as cores, e personalizando os parâmetros `dend.side
+Então, utilizamos a função circos.clear para limpar a plotagem anterior e configuramos alguns parâmetros com a função circos.par. Em seguida, criamos a heatmap circular com a função circos.heatmap, fornecendo os dados padronizados, a estrutura de divisão dos clusters, as cores, e personalizando os parâmetros \`dend.side
 
 ```{r}
 # Definir as cores para a heatmap
@@ -873,7 +860,7 @@ BLUPS_join <- BLUPS_join %>%
 save(BLUPS_join, file = "output/BLUPS2.RData")
 ```
 
-###  Cálculo das médias
+### Cálculo das médias
 
 São calculadas as médias dos valores das variáveis numéricas para cada combinação de "germplasmName" e "cluster". Os resultados são armazenados no objeto "mean_germ_cluster" e são salvos em um arquivo de texto.
 
@@ -893,7 +880,6 @@ mean_germ_cluster <- BLUPS_join %>%
 write.table(mean_germ_cluster, "output/mean_germ_cluster2.txt")
 ```
 
-
 ```{r}
 # Converte as variáveis cluster e trait para fatores e remove níveis não utilizados
 BLUPS_join <- BLUPS_join %>%
@@ -908,87 +894,98 @@ são realizados testes estatísticos e a criação de gráficos para cada nível
 
 ```{r}
 # Cria uma lista vazia para armazenar os gráficos de cada trait
+
 p <- list()
 
 # Loop sobre os níveis da variável trait
-for(i in names(names1)){
-
+for (i in names(names1)) {
   stat.test1 <- BLUPS_join %>%
     filter(trait == i) %>%
-    t_test(Predicted ~ cluster) %>% 
-    add_xy_position()
+    t_test(Predicted ~ cluster) %>%
+    add_xy_position() %>%
+    filter(p.adj.signif != "ns")
   
-  name <- names[[i]]
+  name <- names1[[i]]
   
   # Cria o gráfico para cada trait, adicionando as significâncias
   p[[i]] <- ggbetweenstats(
-    data = BLUPS_join %>% 
+    data = BLUPS_join %>%
       filter(trait == i),
     x = cluster,
     y = Predicted,
     results.subtitle = FALSE,
-    pairwise.comparisons = FALSE, 
+    pairwise.comparisons = FALSE,
     title = name,
     xlab = "Cluster",
-    ylab = "") +
-    ggsignif::geom_signif(
-      comparisons = stat.test1$groups,
-      map_signif_level = TRUE,
-      annotations = stat.test1$p.adj.signif,
-      y_position = stat.test1$y.position,
-      test = NULL
-    )
+    ylab = ""
+  )
+  
+  if (nrow(stat.test1) != 0) {
+    p[[i]] +
+      ggsignif::geom_signif(
+        comparisons = stat.test1$groups,
+        map_signif_level = TRUE,
+        annotations = "",
+        y_position = stat.test1$y.position,
+        test = NULL
+      )
+  }
+  
 }
 
 # Combina os gráficos em uma única grade
-combine_plots(
-  plotlist = p,
-  plotgrid.args = list(nrow = 3)
-)
+combine_plots(plotlist = p,
+              plotgrid.args = list(nrow = 3))
 
 # Salva o gráfico em um arquivo TIFF
-ggsave("output/boxplot_violine2.tiff", width = 16, height = 24)
+ggsave("output/boxplot_violine.tiff",
+       width = 16,
+       height = 24)
 
 # Cria uma lista vazia para armazenar os gráficos de cada trait
 p <- list()
 
 # Loop sobre os níveis da variável trait
-for(i in names(names1)){
-
+for (i in names(names2)) {
   stat.test1 <- BLUPS_join %>%
     filter(trait == i) %>%
-    t_test(Predicted ~ cluster) %>% 
-    add_xy_position()
+    t_test(Predicted ~ cluster) %>%
+    add_xy_position() %>%
+    filter(p.adj.signif != "ns")
   
-  name <- names[[i]]
+  name <- names2[[i]]
   
   # Cria o gráfico para cada trait, adicionando as significâncias
   p[[i]] <- ggbetweenstats(
-    data = BLUPS_join %>% 
+    data = BLUPS_join %>%
       filter(trait == i),
     x = cluster,
     y = Predicted,
     results.subtitle = FALSE,
-    pairwise.comparisons = FALSE, 
+    pairwise.comparisons = FALSE,
     title = name,
     xlab = "Cluster",
-    ylab = "") +
-    ggsignif::geom_signif(
-      comparisons = stat.test1$groups,
-      map_signif_level = TRUE,
-      annotations = stat.test1$p.adj.signif,
-      y_position = stat.test1$y.position,
-      test = NULL
-    )
+    ylab = ""
+  )
+  
+  if (nrow(stat.test1) != 0) {
+    p[[i]] +
+      ggsignif::geom_signif(
+        comparisons = stat.test1$groups,
+        map_signif_level = TRUE,
+        annotations = "",
+        y_position = stat.test1$y.position,
+        test = NULL
+      )
+  }
 }
 
 # Combina os gráficos em uma única grade
-combine_plots(
-  plotlist = p,
-  plotgrid.args = list(nrow = 3)
-)
+combine_plots(plotlist = p,
+              plotgrid.args = list(nrow = 3))
 
 # Salva o gráfico em um arquivo TIFF
-ggsave("output/boxplot_violine2.tiff", width = 16, height = 24)
+ggsave("output/boxplot_violine2.tiff",
+       width = 16,
+       height = 24)
 ```
-
